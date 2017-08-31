@@ -1,0 +1,20 @@
+{
+  "name": "face-match",
+  "version": "1.0.0",
+  "description": "A program to find people who look like you.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbcAbcwebd/Face-Match.git"
+  },
+  "author": "Owen Essen, Alec Schleicher, Caroline Bowes",
+  "license": "SEE LICENSE IN license.txt",
+  "bugs": {
+    "url": "https://github.com/AbcAbcwebd/Face-Match/issues"
+  },
+  "homepage": "https://github.com/AbcAbcwebd/Face-Match#readme"
+}
