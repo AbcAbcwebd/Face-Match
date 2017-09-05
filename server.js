@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const exphbs = require("express-handlebars");
 
 const app = express();
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 3000;
 
 const passport   = require('passport');
 const session    = require('express-session');
@@ -36,25 +36,30 @@ app.use(express.static("public"));
 
 // Routes
 // =============================================================
-
+/*
 const api_routes = require("./routes/api-routes.js");
 app.use("api/", api_routes);
 var authRoute = require('./routes/auth.js')(app);
-
-const router = express.Router();
-router.get("/test", function(req, res) {
+*/
+//const router = express.Router();
+app.get("/test", function(req, res) {
   console.log("Test route works");
 });
 
 
 //Sync Database
+/*
 models.sequelize.sync().then(function() {
     console.log('Nice! Database looks fine')
 }).catch(function(err) {
     console.log(err, "Something went wrong with the Database Update!")
 });
-/*
 app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
 });
 */
+models.sequelize.sync({ force: true }).then(function() {
+  app.listen(PORT, function() {
+    console.log("App listening on PORT " + PORT);
+  });
+});
