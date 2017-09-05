@@ -5,11 +5,11 @@ var fs        = require('fs');
 var path      = require('path');
 var Sequelize = require('sequelize');
 var basename  = path.basename(module.filename);
-var env       = process.env.NODE_ENV || 'production';
+var env       = process.env.NODE_ENV || 'development';
 var db        = {};
 
 // To conect to development database
-var sequelize = new Sequelize("DATABASE", "USERNAME", "PASSWORD", {
+var sequelize = new Sequelize("face_match_db", "root", "root", {
   host: "localhost",
   dialect: "mysql",
     max: 5,

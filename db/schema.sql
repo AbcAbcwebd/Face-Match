@@ -13,3 +13,6 @@ If we end up calculating matches ourselves, then obviously DB structure would be
 Perhaps we could use this for initial photos:
 https://randomuser.me/photos
 */
+
+CREATE DATABASE face_match_db;
+USE face_match_db;
