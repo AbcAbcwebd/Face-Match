@@ -5,8 +5,8 @@ const exphbs = require("express-handlebars");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const passport   = require('passport');
-const session    = require('express-session');
+const passport = require('passport');
+const session = require('express-session');
 
 const env = require('dotenv').load();
 
@@ -36,28 +36,14 @@ app.use(express.static("public"));
 
 // Routes
 // =============================================================
-/*
 const api_routes = require("./routes/api-routes.js");
 app.use("api/", api_routes);
-var authRoute = require('./routes/auth.js')(app);
-*/
-//const router = express.Router();
-app.get("/test", function(req, res) {
-  console.log("Test route works");
-});
+var authRoute = require('./routes/auth.js')(app,passport);
 
+//load passport strategies
+require('./config/passport/passport.js')(passport, models.user);
 
 //Sync Database
-/*
-models.sequelize.sync().then(function() {
-    console.log('Nice! Database looks fine')
-}).catch(function(err) {
-    console.log(err, "Something went wrong with the Database Update!")
-});
-app.listen(PORT, function() {
-    console.log("App listening on PORT " + PORT);
-});
-*/
 models.sequelize.sync({ force: true }).then(function() {
   app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
