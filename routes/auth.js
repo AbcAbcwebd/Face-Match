@@ -6,6 +6,8 @@ var authController = require('../controllers/authcontroller.js');
 module.exports = function(app, passport) {
     app.get('/signup', authController.signup);
     app.get('/signin', authController.signin);
+    app.get('/dashboard',isLoggedIn, authController.dashboard);
+    app.get('/logout',authController.logout);
 
     // Change '/dashboard' to wherever we want the user to be redirected upon authentication. 
     // Perhaps a page where they can see all their past matches and initiate a new one? 
@@ -14,4 +16,19 @@ module.exports = function(app, passport) {
 	        failureRedirect: '/signup'
 	    }
 	));
+
+	app.post('/signin', passport.authenticate('local-signin', {
+	        successRedirect: '/dashboard',
+	 
+	        failureRedirect: '/signin'
+	    }
+	));
+
+	// This function is used for private pages. 
+	// If a user is not signed in, they are redirected to the sign in page. 
+	function isLoggedIn(req, res, next) {
+	    if (req.isAuthenticated())
+	        return next();     
+	    res.redirect('/signin');
+	};
 };
