@@ -44,6 +44,12 @@ module.exports = function(sequelize, Sequelize) {
  
     });
  
+    User.associate = function(models) {
+        User.hasMany(models.Photo, {
+            onDelete: "cascade"
+        });
+    };
+
     return User;
  
 }
