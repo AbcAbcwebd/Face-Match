@@ -1,5 +1,5 @@
 // This file should be refactored. 
-'use strict'; // Test comment
+'use strict';
 
 var fs        = require('fs');
 var path      = require('path');

@@ -1,8 +1,8 @@
 {
     "local": {
-        "username": "Xroot",
-        "password": "XREPLACEME",
-        "database": "XREPLACEME",
+        "username": "root",
+        "password": "REPLACEME",
+        "database": "REPLACEME",
         "host": "localhost",
         "dialect": "mysql"
     },
