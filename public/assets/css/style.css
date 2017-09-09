@@ -1,0 +1,23 @@
+#wrapper {
+	width: 1020px; 
+	display: table;
+}
+
+#jsonOutput {
+	width: 600px;
+	display: table-cell;
+}
+
+#responseTextArea {
+	width:580px;
+	height:400px;
+}
+
+#imageDiv {
+	width: 420px;
+	display: table-cell;
+}
+
+#sourceImage {
+	width: 400px;
+}
