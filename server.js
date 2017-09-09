@@ -36,8 +36,7 @@ app.use(express.static("public"));
 
 // Routes
 // =============================================================
-const api_routes = require("./routes/api-routes.js");
-app.use("api/", api_routes);
+require("./routes/apiRoutes.js")(app);
 var authRoute = require('./routes/auth.js')(app,passport);
 
 //load passport strategies
