@@ -51,7 +51,7 @@ module.exports = function(passport, user) {
 			        });
 			    }
 			});
-		},
+		}
 	));
 
 	// serialize (this saves user id to the session)

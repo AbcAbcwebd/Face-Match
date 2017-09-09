@@ -45,7 +45,7 @@ module.exports = function(sequelize, Sequelize) {
     });
  
     User.associate = function(models) {
-        User.hasMany(models.Photo, {
+        User.hasMany(models.photo, {
             onDelete: "cascade"
         });
     };
