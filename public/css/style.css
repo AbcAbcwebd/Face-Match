@@ -149,9 +149,27 @@ object:hover {
   background: white;
 }
 
-#test-id {
-  background: pink;
-  margin-top: 0px;
+#site-title {
+  max-width: 500px;
+
+}
+
+#menu-button-holder {
+  position: relative;
+  float: right;
+  margin-right: 5px;
+  padding-top: 15px;
+}
+
+#menu-button {
+  overflow: visible;
+  height: 75px;
+  width: 75px;
+}
+
+#holder-holder {
+  background: black;
+  height: 55px;
 }
 
 @media (max-width: 640px) {
