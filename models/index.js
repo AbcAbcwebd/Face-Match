@@ -7,15 +7,15 @@ var Sequelize = require('sequelize');
 var basename  = path.basename(module.filename);
 var env       = process.env.NODE_ENV || 'development';
 var db        = {};
+const dbCreds = require("../config/config.json")(process.argv[2]);
 
 // To conect to development database
-var sequelize = new Sequelize("face_match_db", "root", "passw0rd", {
-  host: "localhost",
+var sequelize = new Sequelize(dbCreds.database, dbCreds.username, dbCreds.password, {
+  host: dbCreds.host,
   dialect: "mysql",
     max: 5,
     min: 0,
     idle: 10000
-//  }
 });
 
 sequelize
