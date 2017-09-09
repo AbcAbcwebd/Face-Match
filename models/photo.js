@@ -23,7 +23,7 @@ module.exports = function(sequelize, Sequelize) {
     });
 
     Photo.associate = function(models) {
-        Photo.belongsTo(models.User, {
+        Photo.belongsTo(models.user, {
             foreignKey: {
                 allowNull: false
             }
