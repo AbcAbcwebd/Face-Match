@@ -1,45 +1,39 @@
 {
+<<<<<<< HEAD
  
     "caroline": {
  
+=======
+    "alec": {
+>>>>>>> 4008e5080b3e511f2ce2cb2f0754fbbcd5fa900b
         "username": "root",
- 
-        "password": "passw0rd",
- 
+        "password": "Groundon121!",
         "database": "face_match_db",
- 
-        "host": "127.0.0.1",
- 
+        "host": "localhost",
         "dialect": "mysql"
- 
     },
  
-    "test": {
- 
-        "username": "",
- 
-        "password": null,
- 
-        "database": "",
- 
-        "host": "",
- 
+    "caroline": {
+        "username": "root",
+        "password": "passw0rd",
+        "database": "face_match_db",
+        "host": "localhost",
         "dialect": "mysql"
- 
     },
  
-    "production": {
- 
-        "username": "",
- 
-        "password": null,
- 
-        "database": "",
- 
-        "host": "127.0.0.1",
- 
+    "owen": {
+        "username": "root",
+        "password": "root",
+        "database": "face_match_db",
+        "host": "localhost",
         "dialect": "mysql"
- 
+    },
+
+    "remote": {
+        "username": "root",
+        "password": "TBD",
+        "database": "",
+        "host": "174.138.39.122",
+        "dialect": "mysql"
     }
- 
 }
