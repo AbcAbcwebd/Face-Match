@@ -143,6 +143,17 @@ object {
 object:hover {
   opacity: 1; }
 
+#main-header {
+  padding-top: 1px;
+  padding-bottom: 5px;
+  background: white;
+}
+
+#test-id {
+  background: pink;
+  margin-top: 0px;
+}
+
 @media (max-width: 640px) {
   .viewport {
     -webkit-transform: scale(0.6, 0.6);
