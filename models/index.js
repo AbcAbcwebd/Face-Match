@@ -9,8 +9,9 @@ var env       = process.env.NODE_ENV || 'development';
 var db        = {};
 
 // To conect to development database
-var sequelize = new Sequelize("face_match_db", "root", "root", {
+var sequelize = new Sequelize("face_match_db", "root", "Groundon121!", {
   host: "localhost",
+  port: 3306,
   dialect: "mysql",
     max: 5,
     min: 0,
