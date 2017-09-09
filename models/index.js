@@ -10,8 +10,14 @@ var db        = {};
 const dbCreds = require("../config/config.json")(process.argv[2]);
 
 // To conect to development database
+<<<<<<< HEAD
 var sequelize = new Sequelize(dbCreds.database, dbCreds.username, dbCreds.password, {
   host: dbCreds.host,
+=======
+var sequelize = new Sequelize("face_match_db", "root", "Groundon121!", {
+  host: "localhost",
+  port: 3306,
+>>>>>>> 82a98cc2ebb4d624edb5334f5de585fbc8cecfc7
   dialect: "mysql",
     max: 5,
     min: 0,

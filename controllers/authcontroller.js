@@ -1,5 +1,5 @@
 var exports = module.exports = {}
-//test
+
 exports.signup = function(req, res) {
  
     res.render('signup');
