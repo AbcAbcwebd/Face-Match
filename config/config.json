@@ -1,8 +1,8 @@
 {
     "local": {
-        "username": "REPLACEME",
+        "username": "root",
         "password": "REPLACEME",
-        "database": "face_match_db",
+        "database": "REPLACEME",
         "host": "localhost",
         "dialect": "mysql"
     },
