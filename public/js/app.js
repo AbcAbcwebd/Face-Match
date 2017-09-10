@@ -273,6 +273,9 @@ Viewport.prototype.animate = function() {
 
   }
 
+// This section of code designates the different states the image cube can be in. 
+// If 'autoHit' is set to false, the cube can be hand rotated by the user. 
+// If 'autoHit' is set to a number, the cube is rotated to a particular image. 
 if (!autoHit) {
     this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + this.positionY + 'deg) rotateY(' + this.positionX + 'deg)';
 } else if (autoHit === 6) {
@@ -280,7 +283,21 @@ if (!autoHit) {
     this.positionY = 100;
     this.positionX = 0;
     autoHit = false;
-}; 
+} else if (autoHit === 1) {
+    this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + 0 + 'deg) rotateY(' + 100 + 'deg)';
+    this.positionY = 250;
+    this.positionX = 0;
+    autoHit = false;
+} else if (autoHit === 4) {
+    this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + 0 + 'deg) rotateY(' + 100 + 'deg)';
+    this.positionY = 175;
+    this.positionX = 0;
+    autoHit = false;
+} else if (autoHit === "sim") {
+    this.positionY++;
+    this.positionX++;
+    this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + this.positionY + 'deg) rotateY(' + this.positionX + 'deg)';
+}
 
   if(this.positionY != this.previousPositionY || this.positionX != this.previousPositionX) {
     this.previousPositionY = this.positionY;
