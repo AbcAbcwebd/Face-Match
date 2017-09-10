@@ -1,4 +1,4 @@
-var autoHit = false;
+var autoHit = "sim";
 
 $( document ).ready(function() {
 var events = new Events();

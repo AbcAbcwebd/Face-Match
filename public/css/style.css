@@ -6,8 +6,10 @@
 
 body {
   background: #191926;
-  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
-  font-weight: 300; 
+}
+
+p {
+  font-family: 'Lato', sans-serif;
 }
 
 .viewport {
@@ -26,7 +28,8 @@ body {
   -ms-transform: scale(0.8, 0.8);
   -o-transform: scale(0.8, 0.8);
   transform: scale(0.8, 0.8);
-  -webkit-box-reflect: below 170px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0%, transparent), to(rgba(250, 250, 250, 0.1))); }
+  -webkit-box-reflect: below 170px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0%, transparent), to(rgba(250, 250, 250, 0.1))); 
+}
 
 .cube {
   position: relative;
@@ -176,7 +179,10 @@ object:hover {
 
 #wrapper {
   padding-top: 5%;
-  width: 50%;
+  width: 45%;
+  float: left;
+  margin-top: 30px;
+  margin-left: 20px;
 }
 
 #jsonOutput {
@@ -192,10 +198,6 @@ object:hover {
 #imageDiv {
   width: 420px;
   display: table-cell;
-}
-
-#sourceImage {
-  width: 400px;
 }
 
 .cube-image {
@@ -215,11 +217,79 @@ header h1 {
   margin-left: 15px;
   width: 300px;
   float: left;
+  font-family: 'Righteous', cursive;
+  margin-top: 5px;
 }
 
 #menu-holder {
   width: calc(100% - 315px);
   float: left;
+}
+
+#source-image-holder {
+  width: 50%;
+  float: left;
+  margin-top: 30px;
+  padding-top: 25px;
+  margin-left: 15px;
+}
+
+#source-image {
+  width: 90%;
+  display: block;
+  margin: auto;
+}
+
+#wrapper, #source-image-holder {
+  border: white solid 2px;
+  border-radius: 15px;
+  height: 450px;
+}
+
+footer {
+  height: 30px;
+  background: #ededed;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  padding-top: 7px;
+}
+
+#core-content {
+  display: block;
+  overflow: auto;
+}
+
+footer p {
+  text-align: center;
+}
+
+#image-upload-btn {
+  font-size: 30px;
+  background: red;
+  color: white;
+  border-radius: 5px;
+  display: block;
+  margin: auto;
+  font-family: 'Righteous', cursive;
+}
+
+.init-instructions {
+  text-align: center;
+  color: white;
+  margin-top: 75px;
+  margin-bottom: 55px;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 20px;
+}
+
+#grab-tip {
+  color: white;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  margin-top: 150px;
 }
 
 @media (max-width: 640px) {
@@ -228,4 +298,21 @@ header h1 {
     -moz-transform: scale(0.6, 0.6);
     -ms-transform: scale(0.6, 0.6);
     -o-transform: scale(0.6, 0.6);
-    transform: scale(0.6, 0.6); } }
+    transform: scale(0.6, 0.6); 
+  } 
+}
+
+@media (max-width: 700px) {
+  #wrapper, #source-image-holder {
+    width: 90%;
+    display: block;
+    margin: auto;
+    margin-top: 15px;
+    margin-left: 20px;
+  }
+
+  footer {
+    position: relative;
+    margin-top: 20px;
+  }
+}
