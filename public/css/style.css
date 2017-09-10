@@ -197,6 +197,11 @@ object:hover {
   width: 400px;
 }
 
+.cube-image {
+  width: 100%;
+  min-height: 100%;
+}
+
 @media (max-width: 640px) {
   .viewport {
     -webkit-transform: scale(0.6, 0.6);
