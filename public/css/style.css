@@ -1,15 +1,14 @@
+/* This document should be refactored. */
 *, *:before, *:after {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
 body {
-  background: #1b1b1b;
+  background: #191926;
   font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
-  font-weight: 300; }
-
-#wrapper {
-  padding-top: 5%; }
+  font-weight: 300; 
+}
 
 .viewport {
   -webkit-perspective: 800px;
@@ -163,9 +162,11 @@ object:hover {
 }
 
 #menu-button {
-  overflow: visible;
-  height: 75px;
-  width: 75px;
+  height: 45px;
+  width: 45px;
+  float: right;
+  margin-right: 20px;
+  margin-top: 8px;
 }
 
 #holder-holder {
@@ -174,8 +175,8 @@ object:hover {
 }
 
 #wrapper {
-  width: 1020px; 
-  display: table;
+  padding-top: 5%;
+  width: 50%;
 }
 
 #jsonOutput {
@@ -200,6 +201,25 @@ object:hover {
 .cube-image {
   width: 100%;
   min-height: 100%;
+}
+
+header {
+  background: #ededed;
+  height: 60px;
+  width: 100%;
+}
+
+header h1 {
+  font-size: 50px;
+  color: red;
+  margin-left: 15px;
+  width: 300px;
+  float: left;
+}
+
+#menu-holder {
+  width: calc(100% - 315px);
+  float: left;
 }
 
 @media (max-width: 640px) {
