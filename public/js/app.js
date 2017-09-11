@@ -371,7 +371,7 @@ $( document ).ready(function() {
     viewport: viewport,
     element: $('.cube')[0]
   });
-
+/*
   $( "#test-button" ).click(function() {
     console.log("Clicked");
     console.log(userPrefix.js);
@@ -380,7 +380,7 @@ $( document ).ready(function() {
   //   Viewport.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + this.positionY + 'deg) rotateY(' + this.positionX + 'deg)';
       autoHit = 6;
   });
-
+*/
   //These buttons handle the dropdown menu
    $("#menu-button").click(function(){
       if ( $('#menu-dropdown').hasClass( "show" ) ){
