@@ -371,7 +371,7 @@ $( document ).ready(function() {
     viewport: viewport,
     element: $('.cube')[0]
   });
-
+/*
   $( "#test-button" ).click(function() {
     console.log("Clicked");
     console.log(userPrefix.js);
@@ -380,7 +380,7 @@ $( document ).ready(function() {
   //   Viewport.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + this.positionY + 'deg) rotateY(' + this.positionX + 'deg)';
       autoHit = 6;
   });
-
+*/
   //These buttons handle the dropdown menu
    $("#menu-button").click(function(){
       if ( $('#menu-dropdown').hasClass( "show" ) ){
@@ -396,6 +396,90 @@ $( document ).ready(function() {
       $('#menu-dropdown').removeClass("show");
       $('#menu-dropdown').css('display', 'none');
    });
+
+
+  $('#sign-up-btn').click(function(){
+    $('.modal').css('display', 'block');
+  });
+
+  $('#sign-in-btn').click(function(){
+    $('.modal2').css('display', 'block');
+  });
+
+  $('.close').click(function(){
+    $('.modal').css('display', 'none');
+    $('.modal2').css('display', 'none');
+  });
+
+  // Handles sign up form submissions
+  $('#sign-up-submit-btn').click(function(){
+    event.preventDefault();
+    var newEmail = $('#new-email').val();
+    var newFirstName = $('#new-first-name').val();
+    var newLastName = $('#new-last-name').val();
+    var newPassword = $('#new-password').val();
+    var newPasswordConfirm = $('#new-password-confirm').val();
+    // Form validation (could add more)
+    if (!newEmail || !newFirstName || !newLastName || !newPassword || !newPasswordConfirm){
+      $('#sign-up-error-display').text("All fields are required.");
+    } else if (newPassword !== newPasswordConfirm) {
+      $('#sign-up-error-display').text("Passwords must match.");
+    } else if(newEmail.indexOf('@') < 0 || newEmail.indexOf('.') < 0){
+      $('#sign-up-error-display').text("Please enter a valid email.");
+    } else {
+      // Form data has passed validation and will now be sent to backend
+      $('#sign-up-error-display').text("");
+      userData = {
+        email: newEmail,
+        firstname: newFirstName,
+        lastname: newLastName,
+        password: newPassword
+      };
+      $.post("/signup", userData, function(data) {
+        console.log(data);
+        if (data.status !== "active") {
+          $('#sign-up-error-display').text("We're sorry! There seems to be a problem with your account....");
+        } else {
+          $('#signup').empty();
+          var welcomeMessage = $('<p>').text("Welcome " + data.firstname + "! Thanks for signing up!");
+          $('.modal-content').append(welcomeMessage);
+          setTimeout(function(){
+            $('.modal').css('display', 'none');
+          }, 4000);
+          updateDropdown();
+          $('#menu-dropdown').removeClass("show");
+          $('#menu-dropdown').css('display', 'none');
+        };
+      });
+    }
+  });
+
+  $('#sign-in-submit-btn').click(function(){
+    event.preventDefault();
+    var userEmail = $('#user-email').val();
+    var userPassword = $('#user-password').val();
+    var signInData = {
+      email: userEmail,
+      password: userPassword
+    };
+    console.log("About to send sign in data")
+    $.post("/signup", signInData, function(data) {
+      console.log(data);
+      if (data.status !== "active"){
+         $('#sign-in-error-display').text("We're sorry! There seems to be a problem with your account....");
+       } else {
+          $('#signin').empty();
+          var welcomeBackMessage = $('<p>').text("Welcome back!");
+          $('#signin').append(welcomeBackMessage);
+          setTimeout(function(){
+            $('.modal2').css('display', 'none');
+          }, 4000);
+          updateDropdown();
+          $('#menu-dropdown').removeClass("show");
+          $('#menu-dropdown').css('display', 'none');
+       };
+    });
+  });
 
 });
 
@@ -425,8 +509,9 @@ function processImage() {
     };
 
     // Display the image.
-    var sourceImageUrl = document.getElementById("inputImage").value;
-    document.querySelector("#sourceImage").src = sourceImageUrl;
+  //  var sourceImageUrl = document.getElementById("inputImage").value;
+  //  document.querySelector("#sourceImage").src = sourceImageUrl;
+  var sourceImageUrl = "http://www.math.uni-frankfurt.de/~person/_4170854.jpg"
 
     // Perform the REST API call.
     $.ajax({
@@ -446,7 +531,8 @@ function processImage() {
 
     .done(function(data) {
         // Show formatted JSON on webpage.
-        $("#responseTextArea").val(JSON.stringify(data, null, 2));
+//        $("#responseTextArea").val(JSON.stringify(data, null, 2));
+      console.log(data);
     })
 
     .fail(function(jqXHR, textStatus, errorThrown) {
@@ -457,3 +543,28 @@ function processImage() {
         alert(errorString);
     });
 };
+
+function checkSignInStatus(){
+  $.get("/sign-in-check", function(data) {
+    if (data.status === "active"){
+      console.log("Signed In");
+      return "Signed In"
+    } else {
+      console.log("Not signed in");
+      return "Not signed in"
+    }
+  });
+};
+
+// This replaces the default dropdown menu with one designed for users who are already signed in.
+function updateDropdown(){
+  $('#menu-dropdown').empty();
+  $('#menu-dropdown').append('<a id="view-matches-btn">View Past Matches</a>');
+};
+
+function loadDynamicContent(){
+  var signInStatus = checkSignInStatus();
+  if (signInStatus === "Signed In"){
+    updateDropdown();
+  }
+}
