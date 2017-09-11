@@ -11,12 +11,16 @@ module.exports = function(app, passport) {
 
     // Change '/dashboard' to wherever we want the user to be redirected upon authentication. 
     // Perhaps a page where they can see all their past matches and initiate a new one? 
-    app.post('/signup', passport.authenticate('local-signup', {
+    app.post('/signup', passport.authenticate('local-signup'), function(req, res) {
+	    res.json(req.user);
+	});
+/*
+	app.post('/signup', passport.authenticate('local-signup', {
 	        successRedirect: '/dashboard',
 	        failureRedirect: '/signup'
 	    }
 	));
-
+*/
 	app.post('/signin', passport.authenticate('local-signin', {
 	        successRedirect: '/dashboard',
 	        failureRedirect: '/signin'

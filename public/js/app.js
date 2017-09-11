@@ -402,6 +402,32 @@ $( document ).ready(function() {
     $('.modal').css('display', 'block');
   });
 
+  $('.close').click(function(){
+    $('.modal').css('display', 'none');
+  });
+
+  // Handles sign up form submissions
+  $('#sign-up-submit-btn').click(function(){
+    var newEmail = $('#new-email').val();
+    var newFirstName = $('#new-first-name').val();
+    var newLastName = $('#new-last-name').val();
+    var newPassword = $('#new-password').val();
+    var newPasswordConfirm = $('#new-password-confirm').val();
+    // Form validation (could add more)
+    if (!newEmail || !newFirstName || !newLastName || !newPassword || !newPasswordConfirm){
+      $('#sign-up-error-display').text("All fields are required.");
+    } else if (newPassword === newPasswordConfirm) {
+      $('#sign-up-error-display').text("Passwords must match.");
+    } else if(newEmail.indexOf('@') < 0 || newEmail.indexOf('.') < 0){
+      $('#sign-up-error-display').text("Please enter a valid password.");
+    } else {
+      // Form data has passed validation and will now be sent to backend
+      $.post("/signup", Post, function(data) {
+        console.log(data);
+      });
+    }
+  });
+
 });
 
 function processImage() {

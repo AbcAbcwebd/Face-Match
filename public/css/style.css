@@ -376,6 +376,10 @@ form button {
   margin-top: 5px;
 }
 
+.error-display {
+  color: red;
+}
+
 @media (max-width: 640px) {
   .viewport {
     -webkit-transform: scale(0.6, 0.6);
