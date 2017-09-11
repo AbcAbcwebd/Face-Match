@@ -509,8 +509,9 @@ function processImage() {
     };
 
     // Display the image.
-    var sourceImageUrl = document.getElementById("inputImage").value;
-    document.querySelector("#sourceImage").src = sourceImageUrl;
+  //  var sourceImageUrl = document.getElementById("inputImage").value;
+  //  document.querySelector("#sourceImage").src = sourceImageUrl;
+  var sourceImageUrl = "http://www.math.uni-frankfurt.de/~person/_4170854.jpg"
 
     // Perform the REST API call.
     $.ajax({
@@ -530,7 +531,8 @@ function processImage() {
 
     .done(function(data) {
         // Show formatted JSON on webpage.
-        $("#responseTextArea").val(JSON.stringify(data, null, 2));
+//        $("#responseTextArea").val(JSON.stringify(data, null, 2));
+      console.log(data);
     })
 
     .fail(function(jqXHR, textStatus, errorThrown) {
