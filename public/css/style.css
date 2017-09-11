@@ -316,7 +316,7 @@ button {
 .dropdown-content a:hover {background-color: #f1f1f1}
 
 /* The Modal (background) */
-.modal {
+.modal, .modal2 {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
