@@ -408,6 +408,7 @@ $( document ).ready(function() {
 
   // Handles sign up form submissions
   $('#sign-up-submit-btn').click(function(){
+    event.preventDefault();
     var newEmail = $('#new-email').val();
     var newFirstName = $('#new-first-name').val();
     var newLastName = $('#new-last-name').val();
@@ -416,14 +417,31 @@ $( document ).ready(function() {
     // Form validation (could add more)
     if (!newEmail || !newFirstName || !newLastName || !newPassword || !newPasswordConfirm){
       $('#sign-up-error-display').text("All fields are required.");
-    } else if (newPassword === newPasswordConfirm) {
+    } else if (newPassword !== newPasswordConfirm) {
       $('#sign-up-error-display').text("Passwords must match.");
     } else if(newEmail.indexOf('@') < 0 || newEmail.indexOf('.') < 0){
-      $('#sign-up-error-display').text("Please enter a valid password.");
+      $('#sign-up-error-display').text("Please enter a valid email.");
     } else {
       // Form data has passed validation and will now be sent to backend
-      $.post("/signup", Post, function(data) {
+      $('#sign-up-error-display').text("");
+      userData = {
+        email: newEmail,
+        firstname: newFirstName,
+        lastname: newLastName,
+        password: newPassword
+      };
+      $.post("/signup", userData, function(data) {
         console.log(data);
+        if (data.status !== "active") {
+          $('#sign-up-error-display').text("We're sorry! There seems to be a problem with your account....");
+        } else {
+          $('#signup').empty();
+          var welcomeMessage = $('<p>').text("Welcome " + data.firstname + "! Thanks for signing up!");
+          $('.modal-content').append(welcomeMessage);
+          setTimeout(function(){
+            $('.modal').css('display', 'none');
+          }, 4000);
+        };
       });
     }
   });
