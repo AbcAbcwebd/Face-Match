@@ -371,7 +371,7 @@ $( document ).ready(function() {
     viewport: viewport,
     element: $('.cube')[0]
   });
-
+/*
   $( "#test-button" ).click(function() {
     console.log("Clicked");
     console.log(userPrefix.js);
@@ -380,7 +380,7 @@ $( document ).ready(function() {
   //   Viewport.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + this.positionY + 'deg) rotateY(' + this.positionX + 'deg)';
       autoHit = 6;
   });
-
+*/
   //These buttons handle the dropdown menu
    $("#menu-button").click(function(){
       if ( $('#menu-dropdown').hasClass( "show" ) ){
@@ -402,8 +402,13 @@ $( document ).ready(function() {
     $('.modal').css('display', 'block');
   });
 
+  $('#sign-in-btn').click(function(){
+    $('.modal2').css('display', 'block');
+  });
+
   $('.close').click(function(){
     $('.modal').css('display', 'none');
+    $('.modal2').css('display', 'none');
   });
 
   // Handles sign up form submissions
@@ -441,9 +446,39 @@ $( document ).ready(function() {
           setTimeout(function(){
             $('.modal').css('display', 'none');
           }, 4000);
+          updateDropdown();
+          $('#menu-dropdown').removeClass("show");
+          $('#menu-dropdown').css('display', 'none');
         };
       });
     }
+  });
+
+  $('#sign-in-submit-btn').click(function(){
+    event.preventDefault();
+    var userEmail = $('#user-email').val();
+    var userPassword = $('#user-password').val();
+    var signInData = {
+      email: userEmail,
+      password: userPassword
+    };
+    console.log("About to send sign in data")
+    $.post("/signup", signInData, function(data) {
+      console.log(data);
+      if (data.status !== "active"){
+         $('#sign-in-error-display').text("We're sorry! There seems to be a problem with your account....");
+       } else {
+          $('#signin').empty();
+          var welcomeBackMessage = $('<p>').text("Welcome back!");
+          $('#signin').append(welcomeBackMessage);
+          setTimeout(function(){
+            $('.modal2').css('display', 'none');
+          }, 4000);
+          updateDropdown();
+          $('#menu-dropdown').removeClass("show");
+          $('#menu-dropdown').css('display', 'none');
+       };
+    });
   });
 
 });
@@ -506,3 +541,28 @@ function processImage() {
         alert(errorString);
     });
 };
+
+function checkSignInStatus(){
+  $.get("/sign-in-check", function(data) {
+    if (data.status === "active"){
+      console.log("Signed In");
+      return "Signed In"
+    } else {
+      console.log("Not signed in");
+      return "Not signed in"
+    }
+  });
+};
+
+// This replaces the default dropdown menu with one designed for users who are already signed in.
+function updateDropdown(){
+  $('#menu-dropdown').empty();
+  $('#menu-dropdown').append('<a id="view-matches-btn">View Past Matches</a>');
+};
+
+function loadDynamicContent(){
+  var signInStatus = checkSignInStatus();
+  if (signInStatus === "Signed In"){
+    updateDropdown();
+  }
+}

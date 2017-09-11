@@ -21,7 +21,7 @@
 </header>
 
 <div id="menu-dropdown" class="dropdown-content">
-      <a href="#">Sign In</a>
+      <a id="sign-in-btn">Sign In</a>
       <a id="sign-up-btn">Sign Up</a>
     </div>
 
@@ -73,7 +73,7 @@
 
 </div>
 
-<!-- The Modal -->
+<!-- The Sign Up Modal -->
 <div id="sign-up-modal" class="modal">
 
   <!-- Modal content -->
@@ -97,10 +97,29 @@
 
 </div>
 
+<!-- The Sign In Modal -->
+<div id="sign-in-modal" class="modal2">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="signin" name="signin">
+        <label for="email">Email Address</label>
+        <input class="text" name="email" type="text" id="user-email"/>
+        <label for="password">Password</label>
+        <input name="password" type="password" id="user-password"/>
+        <p id="sign-in-error-display" class="error-display"></p>
+        <button id="sign-in-submit-btn">Sign In</button>
+    </form>
+  </div>
+
+</div>
+
 <footer>
   <p>Copyright 2017</p>
 </footer>
 
+<script type="text/javascript"></script>
 
 </body>
 </html>
