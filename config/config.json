@@ -1,5 +1,5 @@
 {
-    "local": {
+    "local": { 
         "username": "root",
         "password": "root",
         "database": "face_match_db",
