@@ -535,3 +535,13 @@ function processImage() {
         alert(errorString);
     });
 };
+
+function checkSignInStatus(){
+  $.get("/sign-in-check", function(data) {
+    if (data.status === "active"){
+      console.log("Signed In")
+    } else {
+      console.log("Not signed in")
+    }
+  });
+};
