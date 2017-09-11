@@ -21,12 +21,17 @@ module.exports = function(app, passport) {
 	    }
 	));
 */
-	app.post('/signin', passport.authenticate('local-signin', {
-	        successRedirect: '/dashboard',
-	        failureRedirect: '/signin'
-	    }
-	));
+	app.post('/signin', passport.authenticate('local-signin'), function(req, res) {
+	    res.json(req.user);
+	});
 
+/*
+	app.post('/signin', passport.authenticate('local-signin', {
+		        successRedirect: '/dashboard',
+		        failureRedirect: '/signin'
+		    }
+		));
+*/
 	// This function is used for private pages. 
 	// If a user is not signed in, they are redirected to the sign in page. 
 	function isLoggedIn(req, res, next) {
