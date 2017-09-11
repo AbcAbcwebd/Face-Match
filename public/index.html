@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Test</title>
+	<title>Face Match</title>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
   <link rel="stylesheet" media="screen" href="css/reset.css"> 
 	<link rel="stylesheet" media="screen" href="css/style.css"> 
@@ -22,7 +22,7 @@
 
 <div id="menu-dropdown" class="dropdown-content">
       <a href="#">Sign In</a>
-      <a href="#">Sign Up</a>
+      <a id="sign-up-btn">Sign Up</a>
     </div>
 
 <div id="core-content">
@@ -69,6 +69,27 @@
       </div>
     </div>
     <p id="grab-tip">(try grabbing the cube)</p>
+  </div>
+
+</div>
+
+<!-- The Modal -->
+<div id="sign-up-modal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="signup" name="signup" method="post" action="/signup">
+        <label for="email">Email Address</label>
+        <input class="text" name="email" type="email" />
+        <label for="firstname">Firstname</label>
+        <input name="firstname" type="text" />
+        <label for="lastname">Lastname</label>
+        <input name="lastname" type="text" />
+        <label for="password">Password</label>
+        <input name="password" type="password" />
+        <button class="btn" value="Sign Up">Submit</button>
+    </form>
   </div>
 
 </div>

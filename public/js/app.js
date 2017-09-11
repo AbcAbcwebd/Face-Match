@@ -397,6 +397,11 @@ $( document ).ready(function() {
       $('#menu-dropdown').css('display', 'none');
    });
 
+
+  $('#sign-up-btn').click(function(){
+    $('.modal').css('display', 'block');
+  });
+
 });
 
 function processImage() {
