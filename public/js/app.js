@@ -446,6 +446,9 @@ $( document ).ready(function() {
           setTimeout(function(){
             $('.modal').css('display', 'none');
           }, 4000);
+          updateDropdown();
+          $('#menu-dropdown').removeClass("show");
+          $('#menu-dropdown').css('display', 'none');
         };
       });
     }
@@ -471,6 +474,9 @@ $( document ).ready(function() {
           setTimeout(function(){
             $('.modal2').css('display', 'none');
           }, 4000);
+          updateDropdown();
+          $('#menu-dropdown').removeClass("show");
+          $('#menu-dropdown').css('display', 'none');
        };
     });
   });
@@ -539,9 +545,24 @@ function processImage() {
 function checkSignInStatus(){
   $.get("/sign-in-check", function(data) {
     if (data.status === "active"){
-      console.log("Signed In")
+      console.log("Signed In");
+      return "Signed In"
     } else {
-      console.log("Not signed in")
+      console.log("Not signed in");
+      return "Not signed in"
     }
   });
 };
+
+// This replaces the default dropdown menu with one designed for users who are already signed in.
+function updateDropdown(){
+  $('#menu-dropdown').empty();
+  $('#menu-dropdown').append('<a id="view-matches-btn">View Past Matches</a>');
+};
+
+function loadDynamicContent(){
+  var signInStatus = checkSignInStatus();
+  if (signInStatus === "Signed In"){
+    updateDropdown();
+  }
+}
