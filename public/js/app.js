@@ -487,6 +487,7 @@ $( document ).ready(function() {
           signedIn = true;
           userID = data.id;
           checkLocalStorage();
+          $('#grab-tip').text("(try grabbing the cube)");
        };
     });
   });
@@ -619,11 +620,16 @@ function saveMatch(returnImageID, newImageURL){
   }
 };
 
+// Checks local storage to see if their are values waiting to be saved to the database. 
+// If there are, the values are saved to the database and then cleared from local storage to prevent double saving.
 function checkLocalStorage(){
   var savedImageID = localStorage.getItem("returnImageID");
   var savedImageURL = localStorage.getItem("newImageURL");
   if (savedImageID && savedImageURL){
     saveMatch(savedImageID, savedImageURL);
+    localStorage.setItem("returnImageID", "");
+    localStorage.setItem("newImageURL", "");
+    console.log("Local storage accessed")
   };
 };
 
@@ -644,6 +650,9 @@ function handleUploadedPhoto(){
     $('#side-6-img').attr('src', data.match);
     setTimeout(function() {
       autoHit = 6;
+      if (!signedIn){
+        $('#grab-tip').text("Login to auto-save this match.");
+      };
     }, 1000);  
     saveMatch(data.matchID, imageID);
   });
