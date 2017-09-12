@@ -391,6 +391,14 @@ form button {
   margin: auto;
 }
 
+#expanded-image {
+  z-index: 102;
+  width: 90%;
+  display: block;
+  margin: auto;
+  max-height: 90%;
+}
+
 @media (max-width: 640px) {
   .viewport {
     -webkit-transform: scale(0.6, 0.6);

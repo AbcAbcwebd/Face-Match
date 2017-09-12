@@ -496,6 +496,17 @@ $( document ).ready(function() {
     $('.cloudinary_fileupload').trigger('click');
   });
 
+  $("body").on("click", "#enlarge-btn", function(){
+    console.log("Clicked");
+    var imgSrc = $('#side-6-img').attr('src');
+    console.log(imgSrc);
+    var expandedImage = $('<img>').attr('src', imgSrc).attr('id', 'expanded-image');
+    $('#wrapper').prepend(expandedImage);
+    $(".viewport").css('display', 'none');
+    $("#enlarge-btn-holder").css('display', 'none');
+    $("#grab-tip").css('display', 'none');
+});
+
 });
 
 function processImage() {
@@ -653,7 +664,9 @@ function handleUploadedPhoto(){
       if (!signedIn){
         $('#grab-tip').text("Login to auto-save this match.");
       };
-    }, 1000);  
+    }, 1000); 
+    var enlargeButton = $('<button>').attr("id", "enlarge-btn").text("Enlarge Photo");
+    $('#enlarge-btn-holder').append(enlargeButton); 
     saveMatch(data.matchID, imageID);
   });
 }
