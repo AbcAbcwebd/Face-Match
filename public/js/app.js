@@ -455,6 +455,7 @@ $( document ).ready(function() {
           $('#menu-dropdown').removeClass("show");
           $('#menu-dropdown').css('display', 'none');
           signedIn = true;
+          checkLocalStorage();
         };
       });
     }
@@ -485,6 +486,7 @@ $( document ).ready(function() {
           $('#menu-dropdown').css('display', 'none');
           signedIn = true;
           userID = data.id;
+          checkLocalStorage();
        };
     });
   });
@@ -586,6 +588,7 @@ function loadDynamicContent(){
   if (signInStatus === "Signed In"){
     updateDropdown();
     signedIn = true;
+    checkLocalStorage();
   } else {
     signedIn = false;
   }
@@ -601,7 +604,9 @@ function saveMatch(returnImageID, newImageURL){
       newImageURL: newImageURL
     };
     $.post("/matches", matchInfo, function(data) {
-
+      // If the save is successful, local storage is wiped out. 
+      localStorage.setItem("returnImageID", "");
+      localStorage.setItem("newImageURL", "");
     });
   } else if (signedIn) {
     // If the user is signed in, but their ID is not available, their ID should be checked.
@@ -609,8 +614,17 @@ function saveMatch(returnImageID, newImageURL){
     saveMatch();
   } else {
     // If the user is not signed in, their information should be stored locally. 
-
+    localStorage.setItem("returnImageID", returnImageID);
+    localStorage.setItem("newImageURL", newImageURL);
   }
+};
+
+function checkLocalStorage(){
+  var savedImageID = localStorage.getItem("returnImageID");
+  var savedImageURL = localStorage.getItem("newImageURL");
+  if (savedImageID && savedImageURL){
+    saveMatch(savedImageID, savedImageURL);
+  };
 };
 
 function handleUploadedPhoto(){
