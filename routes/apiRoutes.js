@@ -16,6 +16,9 @@ module.exports = (app) => {
 	*/
 
 	// This recieves IDs of uploaded images.
+	// It should return an image element to display of the uploaded image as well as a source for a matching image.
+	// Just sub in the API result for 'match'
+	// It should also return the table ID of the image returned by the API
 	app.post("/image", (req, res) => {
 		console.log("Target hit");
 		console.log(req.body.url);
@@ -25,7 +28,19 @@ module.exports = (app) => {
 		res.json({
 			status: "success",
 			image: displayImage,
-			match: "images/demo-portraits/demo1.png"
+			match: "images/demo-portraits/demo1.png",
+			matchID: 1
 		});
+	})
+
+	// This route should recieve matches and save them to the database
+	// It recieves three variables from the database and should make necesary saves to the database.
+	// If the information is saved successfully, it should return a status 200 at the end. 
+	app.post("/matches", (req, res) => {
+		var userID = req.body.submitUser;
+		var returnImageID = req.body.returnImageID;
+		var newImageURL = req.body.newImageURL;
+
+		res.sendStatus(200);
 	})
 };

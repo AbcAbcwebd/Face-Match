@@ -1,5 +1,10 @@
 var autoHit = "sim";
 
+// This is a boolean value that allows us to track whether or not a user is signed in. 
+var signedIn;
+
+var userID;
+
 $( document ).ready(function() {
   var events = new Events();
   events.add = function(obj) {
@@ -449,6 +454,8 @@ $( document ).ready(function() {
           updateDropdown();
           $('#menu-dropdown').removeClass("show");
           $('#menu-dropdown').css('display', 'none');
+          signedIn = true;
+          checkLocalStorage();
         };
       });
     }
@@ -477,6 +484,9 @@ $( document ).ready(function() {
           updateDropdown();
           $('#menu-dropdown').removeClass("show");
           $('#menu-dropdown').css('display', 'none');
+          signedIn = true;
+          userID = data.id;
+          checkLocalStorage();
        };
     });
   });
@@ -560,6 +570,13 @@ function checkSignInStatus(){
   });
 };
 
+function checkID(){
+  $.get("/id-check", function(data) {
+    console.log(data.id);
+    userID = data.id;
+  });
+}
+
 // This replaces the default dropdown menu with one designed for users who are already signed in.
 function updateDropdown(){
   $('#menu-dropdown').empty();
@@ -570,7 +587,44 @@ function loadDynamicContent(){
   var signInStatus = checkSignInStatus();
   if (signInStatus === "Signed In"){
     updateDropdown();
+    signedIn = true;
+    checkLocalStorage();
+  } else {
+    signedIn = false;
   }
+};
+
+// This function handles sending matches to the database to be saved or savng them locally until a user logs in.
+function saveMatch(returnImageID, newImageURL){
+  if (signedIn && userID) {
+    // User is signed in and their ID is being stored locally.
+    matchInfo = {
+      submitUser: userID,
+      returnImageID: returnImageID,
+      newImageURL: newImageURL
+    };
+    $.post("/matches", matchInfo, function(data) {
+      // If the save is successful, local storage is wiped out. 
+      localStorage.setItem("returnImageID", "");
+      localStorage.setItem("newImageURL", "");
+    });
+  } else if (signedIn) {
+    // If the user is signed in, but their ID is not available, their ID should be checked.
+    checkID();
+    saveMatch();
+  } else {
+    // If the user is not signed in, their information should be stored locally. 
+    localStorage.setItem("returnImageID", returnImageID);
+    localStorage.setItem("newImageURL", newImageURL);
+  }
+};
+
+function checkLocalStorage(){
+  var savedImageID = localStorage.getItem("returnImageID");
+  var savedImageURL = localStorage.getItem("newImageURL");
+  if (savedImageID && savedImageURL){
+    saveMatch(savedImageID, savedImageURL);
+  };
 };
 
 function handleUploadedPhoto(){
@@ -591,5 +645,6 @@ function handleUploadedPhoto(){
     setTimeout(function() {
       autoHit = 6;
     }, 1000);  
+    saveMatch(data.matchID, imageID);
   });
 }
