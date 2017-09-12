@@ -380,6 +380,17 @@ form button {
   color: red;
 }
 
+#image-upload-holder {
+  display: none;
+}
+
+#image-display-holder img {
+  max-width: 90%;
+  max-height: 75%;
+  display: block;
+  margin: auto;
+}
+
 @media (max-width: 640px) {
   .viewport {
     -webkit-transform: scale(0.6, 0.6);
