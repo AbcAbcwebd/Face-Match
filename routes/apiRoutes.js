@@ -9,12 +9,6 @@ cloudinary.config({
 });
 
 module.exports = (app) => {
-	/*
-	app.get("/v1", (req, res) => {
-		res.render("index");
-	})
-	*/
-
 	// This recieves IDs of uploaded images.
 	// It should return an image element to display of the uploaded image as well as a source for a matching image.
 	// Just sub in the API result for 'match'
@@ -42,5 +36,12 @@ module.exports = (app) => {
 		var newImageURL = req.body.newImageURL;
 
 		res.sendStatus(200);
+	})
+
+	// This route handles requests for matches for a particular user
+	// The ID of the requesting user is passed in as a query parameter
+	// The client side JavaScript then expects back an array of objects pulled from the database.
+	app.get("/matches/:id", (req, res) => {
+
 	})
 };

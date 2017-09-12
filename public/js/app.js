@@ -414,6 +414,7 @@ $( document ).ready(function() {
   $('.close').click(function(){
     $('.modal').css('display', 'none');
     $('.modal2').css('display', 'none');
+    $('.modal3').css('display', 'none');
   });
 
   // Handles sign up form submissions
@@ -505,9 +506,27 @@ $( document ).ready(function() {
     $(".viewport").css('display', 'none');
     $("#enlarge-btn-holder").css('display', 'none');
     $("#grab-tip").css('display', 'none');
-});
+  });
+
+  $("body").on("click", "#view-matches-btn", function(){
+    $('.modal3').css('display', 'block');
+    loadPastMatches();
+  });
 
 });
+
+function loadPastMatches(){
+  if (!userID) {
+    checkID();
+    loadPastMatches();
+  } else {
+    $.get("/matches/" + userID, function(data) {
+      for (var x = 0; x < data.length; x++){
+        // Here data should be properly structured and then appended to the "#past-matches-holder" div. 
+      };
+    });
+  }; 
+};
 
 function processImage() {
     // **********************************************
