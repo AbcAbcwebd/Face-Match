@@ -21,6 +21,7 @@ module.exports = (app) => {
 		console.log(req.body.url);
 		var displayImage = cloudinary.image(req.body.url, { width: 500, height: 300, crop: "fill" });
 		console.log(displayImage);
+		// Match should return the correct URL.
 		res.json({
 			status: "success",
 			image: displayImage
