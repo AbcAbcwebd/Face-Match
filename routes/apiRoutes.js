@@ -19,12 +19,13 @@ module.exports = (app) => {
 	app.post("/image", (req, res) => {
 		console.log("Target hit");
 		console.log(req.body.url);
-		var displayImage = cloudinary.image(req.body.url, { width: 500, height: 300, crop: "fill" });
+		var displayImage = cloudinary.image(req.body.url);
 		console.log(displayImage);
 		// Match should return the correct URL.
 		res.json({
 			status: "success",
-			image: displayImage
+			image: displayImage,
+			match: "images/demo-portraits/demo1.png"
 		});
 	})
 };

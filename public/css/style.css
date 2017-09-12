@@ -386,7 +386,7 @@ form button {
 
 #image-display-holder img {
   max-width: 90%;
-  max-height: 75%;
+  max-height: 300px;
   display: block;
   margin: auto;
 }

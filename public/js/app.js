@@ -586,5 +586,10 @@ function handleUploadedPhoto(){
     $('#image-upload-holder').empty();
 //    $('#image-upload-holder').append('<input type="file" name="file" class="cloudinary_fileupload">');
     $('#image-upload-btn').css('display', 'none');
+
+    $('#side-6-img').attr('src', data.match);
+    setTimeout(function() {
+      autoHit = 6;
+    }, 1000);  
   });
 }
