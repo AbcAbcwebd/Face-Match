@@ -481,6 +481,10 @@ $( document ).ready(function() {
     });
   });
 
+  $('#image-upload-btn').click(function(){
+    $('.cloudinary_fileupload').trigger('click');
+  });
+
 });
 
 function processImage() {
@@ -567,4 +571,20 @@ function loadDynamicContent(){
   if (signInStatus === "Signed In"){
     updateDropdown();
   }
+};
+
+function handleUploadedPhoto(){
+  var imageID = $('#image-id')[0].innerHTML;
+  console.log(imageID);
+  var imageInfo = {
+    url: imageID
+  };
+  $.post("/image", imageInfo, function(data) {
+    console.log(data);
+    $('#image-display-holder').empty();
+    $('#image-display-holder').append(data.image);
+    $('#image-upload-holder').empty();
+//    $('#image-upload-holder').append('<input type="file" name="file" class="cloudinary_fileupload">');
+    $('#image-upload-btn').css('display', 'none');
+  });
 }
