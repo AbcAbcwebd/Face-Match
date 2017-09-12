@@ -23,6 +23,12 @@ module.exports = function(app, passport) {
 	app.get('/sign-in-check',isLoggedIn, function(req, res){
 		res.json({status: "active"});
 	});
+
+	// This is to get a user's ID
+	app.get('/id-check',isLoggedIn, function(req, res){
+		res.json({id: req.user.id});
+	});
+
 	// This function is used for private pages. 
 	// If a user is not signed in, they are redirected to the sign in page. 
 	function isLoggedIn(req, res, next) {

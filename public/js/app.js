@@ -1,5 +1,10 @@
 var autoHit = "sim";
 
+// This is a boolean value that allows us to track whether or not a user is signed in. 
+var signedIn;
+
+var userID;
+
 $( document ).ready(function() {
   var events = new Events();
   events.add = function(obj) {
@@ -409,6 +414,7 @@ $( document ).ready(function() {
   $('.close').click(function(){
     $('.modal').css('display', 'none');
     $('.modal2').css('display', 'none');
+    $('.modal3').css('display', 'none');
   });
 
   // Handles sign up form submissions
@@ -449,6 +455,8 @@ $( document ).ready(function() {
           updateDropdown();
           $('#menu-dropdown').removeClass("show");
           $('#menu-dropdown').css('display', 'none');
+          signedIn = true;
+          checkLocalStorage();
         };
       });
     }
@@ -477,11 +485,48 @@ $( document ).ready(function() {
           updateDropdown();
           $('#menu-dropdown').removeClass("show");
           $('#menu-dropdown').css('display', 'none');
+          signedIn = true;
+          userID = data.id;
+          checkLocalStorage();
+          $('#grab-tip').text("(try grabbing the cube)");
        };
     });
   });
 
+  $('#image-upload-btn').click(function(){
+    $('.cloudinary_fileupload').trigger('click');
+  });
+
+  $("body").on("click", "#enlarge-btn", function(){
+    console.log("Clicked");
+    var imgSrc = $('#side-6-img').attr('src');
+    console.log(imgSrc);
+    var expandedImage = $('<img>').attr('src', imgSrc).attr('id', 'expanded-image');
+    $('#wrapper').prepend(expandedImage);
+    $(".viewport").css('display', 'none');
+    $("#enlarge-btn-holder").css('display', 'none');
+    $("#grab-tip").css('display', 'none');
+  });
+
+  $("body").on("click", "#view-matches-btn", function(){
+    $('.modal3').css('display', 'block');
+    loadPastMatches();
+  });
+
 });
+
+function loadPastMatches(){
+  if (!userID) {
+    checkID();
+    loadPastMatches();
+  } else {
+    $.get("/matches/" + userID, function(data) {
+      for (var x = 0; x < data.length; x++){
+        // Here data should be properly structured and then appended to the "#past-matches-holder" div. 
+      };
+    });
+  }; 
+};
 
 function processImage() {
     // **********************************************
@@ -556,6 +601,13 @@ function checkSignInStatus(){
   });
 };
 
+function checkID(){
+  $.get("/id-check", function(data) {
+    console.log(data.id);
+    userID = data.id;
+  });
+}
+
 // This replaces the default dropdown menu with one designed for users who are already signed in.
 function updateDropdown(){
   $('#menu-dropdown').empty();
@@ -566,5 +618,74 @@ function loadDynamicContent(){
   var signInStatus = checkSignInStatus();
   if (signInStatus === "Signed In"){
     updateDropdown();
+    signedIn = true;
+    checkLocalStorage();
+  } else {
+    signedIn = false;
   }
+};
+
+// This function handles sending matches to the database to be saved or savng them locally until a user logs in.
+function saveMatch(returnImageID, newImageURL){
+  if (signedIn && userID) {
+    // User is signed in and their ID is being stored locally.
+    matchInfo = {
+      submitUser: userID,
+      returnImageID: returnImageID,
+      newImageURL: newImageURL
+    };
+    $.post("/matches", matchInfo, function(data) {
+      // If the save is successful, local storage is wiped out. 
+      localStorage.setItem("returnImageID", "");
+      localStorage.setItem("newImageURL", "");
+    });
+  } else if (signedIn) {
+    // If the user is signed in, but their ID is not available, their ID should be checked.
+    checkID();
+    saveMatch();
+  } else {
+    // If the user is not signed in, their information should be stored locally. 
+    localStorage.setItem("returnImageID", returnImageID);
+    localStorage.setItem("newImageURL", newImageURL);
+  }
+};
+
+// Checks local storage to see if their are values waiting to be saved to the database. 
+// If there are, the values are saved to the database and then cleared from local storage to prevent double saving.
+function checkLocalStorage(){
+  var savedImageID = localStorage.getItem("returnImageID");
+  var savedImageURL = localStorage.getItem("newImageURL");
+  if (savedImageID && savedImageURL){
+    saveMatch(savedImageID, savedImageURL);
+    localStorage.setItem("returnImageID", "");
+    localStorage.setItem("newImageURL", "");
+    console.log("Local storage accessed")
+  };
+};
+
+function handleUploadedPhoto(){
+  var imageID = $('#image-id')[0].innerHTML;
+  console.log(imageID);
+  var imageInfo = {
+    url: imageID
+  };
+  $.post("/image", imageInfo, function(data) {
+    console.log(data);
+    $('#image-display-holder').empty();
+    $('#image-display-holder').append(data.image);
+    $('#image-upload-holder').empty();
+//    $('#image-upload-holder').append('<input type="file" name="file" class="cloudinary_fileupload">');
+    $('#image-upload-btn').css('display', 'none');
+
+    $('#side-6-img').attr('src', data.match);
+    setTimeout(function() {
+      autoHit = 6;
+      if (!signedIn){
+        $('#grab-tip').text("Login to auto-save this match.");
+      };
+    }, 1000); 
+    var enlargeButton = $('<button>').attr("id", "enlarge-btn").text("Enlarge Photo");
+    $('#enlarge-btn-holder').append(enlargeButton); 
+    saveMatch(data.matchID, imageID);
+  });
 }

@@ -316,7 +316,7 @@ button {
 .dropdown-content a:hover {background-color: #f1f1f1}
 
 /* The Modal (background) */
-.modal, .modal2 {
+.modal, .modal2, .modal3 {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -378,6 +378,25 @@ form button {
 
 .error-display {
   color: red;
+}
+
+#image-upload-holder {
+  display: none;
+}
+
+#image-display-holder img {
+  max-width: 90%;
+  max-height: 300px;
+  display: block;
+  margin: auto;
+}
+
+#expanded-image {
+  z-index: 102;
+  width: 90%;
+  display: block;
+  margin: auto;
+  max-height: 90%;
 }
 
 @media (max-width: 640px) {

@@ -10,6 +10,13 @@
 	<script src="js/app.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Lato|Righteous" rel="stylesheet">
 
+  <!-- These external scripts relate to Cloudinary, an API service this page uses to handle image uploads. -->
+  <!-- The Cloudinary JS sub folder should be checked to ensure all files are actually usd. -->
+  <script type="text/javascript" src="js/cloudinary/jquery.ui.widget.js"></script>
+  <script type="text/javascript" src="js/cloudinary/jquery.iframe-transport.js"></script>
+  <script type="text/javascript" src="js/cloudinary/jquery.fileupload.js"></script>
+  <script type="text/javascript" src="js/cloudinary/jquery.cloudinary.js"></script>
+
 </head>
 <body>
 
@@ -28,8 +35,10 @@
 <div id="core-content">
 
   <div id="source-image-holder">
-    <img src="Ximages/demo-portraits/male4.jpg" id="source-image">
-    <p class="init-instructions">Welcome to Face Match! Upload a photo and we'll find someone who looks like you!</p>
+    <div id="image-display-holder">
+      <p class="init-instructions">Welcome to Face Match! Upload a photo and we'll find someone who looks like you!</p>
+    </div>
+    <div id="image-upload-holder"></div>
     <button id="image-upload-btn">Upload Photo</button>
   </div>
 
@@ -63,11 +72,12 @@
         </div>
         <div class="side">
           <div class="cube-image active">
-            <img class="cube-image" src="images/demo-portraits/female3.jpg" onDragStart="return false"/>
+            <img class="cube-image" src="images/demo-portraits/female3.jpg" onDragStart="return false" id="side-6-img"/>
           </div>
         </div>
       </div>
     </div>
+    <div id="enlarge-btn-holder"></div>
     <p id="grab-tip">(try grabbing the cube)</p>
   </div>
 
@@ -115,11 +125,31 @@
 
 </div>
 
+<!-- The Past Matches Modal -->
+<div id="past-matches-modal" class="modal3">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div id="past-matches-holder">
+      <p>You don't have any past matches yet.</p>
+    </div>
+  </div>
+
+</div>
+
 <footer>
   <p>Copyright 2017</p>
 </footer>
 
-<script type="text/javascript"></script>
+<script type="text/javascript">
+  $('#image-upload-holder').append($.cloudinary.unsigned_upload_tag("xspgbvyg", 
+  { cloud_name: 'face-match' }).bind('cloudinarydone', function(e, data) {
+      $('#image-upload-holder').empty();
+      $('#image-upload-holder').append('<p><strong>File Uploaded!</strong> <span id="image-id">' + data.result.public_id + '</span></p>');
+      handleUploadedPhoto();
+  }));
+</script>
 
 </body>
 </html>
