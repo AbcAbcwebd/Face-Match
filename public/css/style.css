@@ -393,7 +393,7 @@ form button {
 
 #expanded-image {
   z-index: 102;
-  width: 90%;
+  max-width: 90%;
   display: block;
   margin: auto;
   max-height: 90%;
