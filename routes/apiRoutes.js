@@ -58,13 +58,6 @@ module.exports = (app) => {
 		});
 	});
 
-	//photo uploading
-	app.post("/api/photos", function(req, res) {
-		db.photo.create(req.body).then(function(dbPhoto) {
-			res.json(dbPhoto);
-		});
-	});
-
 	app.delete("/api/photos/:id", function(req, res) {
 		dp.photo.destroy({
 			where: {
@@ -99,6 +92,14 @@ module.exports = (app) => {
 		var userID = req.body.submitUser;
 		var returnImageID = req.body.returnImageID;
 		var newImageURL = req.body.newImageURL;
+
+		db.photo.create({
+			url: newImageURL,
+			matchId: returnImageID,
+			userId: userID
+		}).then(function(dbPhoto) {
+			res.json(dbPhoto);
+		});
 
 		res.sendStatus(200);
 	})

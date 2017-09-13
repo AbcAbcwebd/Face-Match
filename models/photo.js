@@ -13,6 +13,16 @@ module.exports = function(sequelize, Sequelize) {
         url: {
             type: Sequelize.STRING,
             notEmpty: true
+        },
+
+        faceId: {
+            type: Sequelize.STRING,
+            notEmpty: true
+        },
+
+        matchId: {
+            type: Sequelize.STRING,
+            notEmpty: true
         }
     });
 
