@@ -10,10 +10,13 @@ function getFaceID(imageURL)
     // Parameters to pass in
     const params = {
         "returnFaceId": "true",
-        "returnFaceLandmarks": "false",
-        "returnFaceAttributes": "{}",
+        "returnFaceLandmarks": "false"
     };
     
+    const image = {
+        "url": imageURL
+    }
+
     $.ajax({
         url: urlBase + $.param(params),
         beforeSend: function(xhrObj){
@@ -23,15 +26,14 @@ function getFaceID(imageURL)
         },
         type: "POST",
         // Request body
-        data: {
-            "url": imageURL  
-        },
+        data: JSON.stringify(image),
     })
     .done(function(data) {
-        alert("success");
+        console.log(data[0].faceId);
+        return data[0].faceId;
     })
     .fail(function() {
-        alert("error");
+        console.log("error");
     });
 }
 
@@ -39,3 +41,5 @@ function compareFaces()
 {
 
 }
+image = "https://i.pinimg.com/736x/dd/45/96/dd4596b601062eb491ea9bb8e3a78062--two-faces-baby-faces.jpg";
+getFaceID(image);
