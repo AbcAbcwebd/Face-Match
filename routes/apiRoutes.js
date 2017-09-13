@@ -1,3 +1,5 @@
+var db = require('../models');
+
 // Relates to Cloudinary (image handling)
 var cloudinary = require('cloudinary');
 

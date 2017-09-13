@@ -13,19 +13,14 @@ module.exports = function(sequelize, Sequelize) {
         url: {
             type: Sequelize.STRING,
             notEmpty: true
-        },
- 
-        date_added: {
-            type: Sequelize.DATE
-        },
- 
- 
+        }
     });
 
     Photo.associate = function(models) {
         Photo.belongsTo(models.user, {
             foreignKey: {
-                allowNull: false
+                allowNull: false,
+                defaultValue: 1
             }
         });
     };

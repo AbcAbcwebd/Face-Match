@@ -23,5 +23,4 @@ create table users (
     primary key (id)
 );
 
-insert into users (name) values ("caroline");
-select * from users
+select * from users;
