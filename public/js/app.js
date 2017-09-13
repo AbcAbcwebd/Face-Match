@@ -1,3 +1,4 @@
+// This variable tracks the "state" of the cube, IE-- animated, displaying a particular side, etc. 
 var autoHit = "sim";
 
 // This is a boolean value that allows us to track whether or not a user is signed in. 
@@ -632,7 +633,8 @@ function saveMatch(returnImageID, newImageURL){
     matchInfo = {
       submitUser: userID,
       returnImageID: returnImageID,
-      newImageURL: newImageURL
+      newImageURL: newImageURL,
+      // ADD NEW IMAGE FACE ID
     };
     $.post("/matches", matchInfo, function(data) {
       // If the save is successful, local storage is wiped out. 
