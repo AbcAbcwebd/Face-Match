@@ -663,6 +663,45 @@ function checkLocalStorage(){
   };
 };
 
+const subscriptionKey = "97ac73fdfd3e437eabe5b247495fa471";
+
+// Get a face ID from input face
+function getFaceID(imageURL)
+{
+    // Base URL
+    const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/detect?";
+
+    // Parameters to pass in
+    const params = {
+        "returnFaceId": "true",
+        "returnFaceLandmarks": "false"
+    };
+    
+    const image = {
+        "url": imageURL
+    }
+    console.log(image);
+
+    $.ajax({
+        url: urlBase + $.param(params),
+        beforeSend: function(xhrObj){
+            // Request headers
+            xhrObj.setRequestHeader("Content-Type","application/json");
+            xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",subscriptionKey);
+        },
+        type: "POST",
+        // Request body
+        data: JSON.stringify(image),
+    })
+    .done(function(data) {
+        console.log(data[0].faceId);
+        return data[0].faceId;
+    })
+    .fail(function() {
+        console.log("error");
+    });
+}
+
 function handleUploadedPhoto(){
   var imageID = $('#image-id')[0].innerHTML;
   console.log(imageID);
@@ -673,6 +712,8 @@ function handleUploadedPhoto(){
     console.log(data);
     $('#image-display-holder').empty();
     $('#image-display-holder').append(data.image);
+    console.log("Passing in: " + data.image.split("src='")[1].split("' />")[0])
+    getFaceID(data.image.split("src='")[1].split("' />")[0]);
     $('#image-upload-holder').empty();
 //    $('#image-upload-holder').append('<input type="file" name="file" class="cloudinary_fileupload">');
     $('#image-upload-btn').css('display', 'none');
