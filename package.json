@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/AbcAbcwebd/Face-Match#readme",
   "dependencies": {
+    "ajax-request": "^1.2.3",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.2",
     "cloudinary": "^1.9.0",
@@ -26,6 +27,8 @@
     "express": "^4.15.4",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.5",
+    "jquery": "^3.2.1",
+    "jsdom": "^11.2.0",
     "materialize-css": "^0.100.2",
     "mysql": "^2.14.1",
     "mysql2": "^1.4.2",
