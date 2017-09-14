@@ -1,6 +1,5 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const exphbs = require("express-handlebars");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,13 +8,6 @@ const passport = require('passport');
 const session = require('express-session');
 
 const env = require('dotenv').load();
-
-//For Handlebars
-app.set('views', './views')
-app.engine('hbs', exphbs({
-    extname: '.hbs'
-}));
-app.set('view engine', '.hbs');
 
 // Requiring our models for syncing
 const models = require("./models");
