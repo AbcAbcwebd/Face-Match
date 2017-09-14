@@ -43,8 +43,7 @@ var authRoute = require('./routes/auth.js')(app,passport);
 require('./config/passport/passport.js')(passport, models.user);
 
 //Sync Database
-models.sequelize.sync({ force: true }).then(function() {
-  app.listen(PORT, function() {
-    console.log("App listening on PORT " + PORT);
-  });
+
+app.listen(PORT, function() {
+	console.log("App listening on PORT " + PORT);
 });
