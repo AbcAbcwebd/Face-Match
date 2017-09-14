@@ -758,7 +758,7 @@ function compareFaces(faceId, originalImageID) {
   const params = {
       "faceId": faceId,
       "faceListId": faceListId,
-//      "maxNumOfCandidatesReturned":1,
+      "maxNumOfCandidatesReturned":1,
       "mode": "matchFace"
   };
 
@@ -780,6 +780,7 @@ function compareFaces(faceId, originalImageID) {
       console.log(data[0]);
       getImage(data[0].persistedFaceId);
       saveMatch(data[0].persistedFaceId, originalImageID, faceId, data[0].confidence);
+      console.log("Persisted Face ID: " + data[0].persistedFaceId);
 //      return data[0];
   })
   .fail(function() {
