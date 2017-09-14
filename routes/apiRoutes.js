@@ -83,6 +83,7 @@ module.exports = (app) => {
 		let returnImageID = req.body.returnImageID;
 		let newImageURL = req.body.newImageURL;
 		let newImageFaceID = req.body.faceID;
+		let matchConfidence = req.body.confidence;
 		console.log("FaceID: " + newImageFaceID);
 
 		db.photo.create({
@@ -105,5 +106,14 @@ module.exports = (app) => {
 		});
 	});
 
+	// Find photo based on faceID
+	app.get("/matches/FID/:faceID", (req, res) => {
+		db.photo.findOne({
+			attributes: ['url'],
+			where: {
+				faceId: req.params.faceID
+			}
+		});
+	});
 
 };
