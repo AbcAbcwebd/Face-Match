@@ -1,9 +1,10 @@
 // Store east cost subscription key
 const subscriptionKey = "97ac73fdfd3e437eabe5b247495fa471";
 
+
 // Get a face ID from input face
-module.exports = {
-    getFaceId: function(imageURL) {
+//module.exports = {
+    export function getFaceId(imageURL) {
         // Base URL
         const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/detect?";
 
@@ -35,8 +36,8 @@ module.exports = {
         .fail(function() {
             console.log("error");
         });
-    },
-    compareFaces: function(faceId, allFaceIds) {
+    };
+    export function compareFaces(faceId, allFaceIds) {
         // Base URL
         const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/findsimilars?";
 
@@ -67,4 +68,4 @@ module.exports = {
             console.log("error");
         });
     }
-};
+//};
