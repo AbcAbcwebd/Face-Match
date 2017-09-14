@@ -93,6 +93,7 @@ module.exports = (app) => {
 		}).then(function(dbPhoto) {
 			res.json(dbPhoto);
 		});
+	});
 
 	//ID of a photo is passed in and the photo 
 	app.get("/matches/:id", (req, res) => {

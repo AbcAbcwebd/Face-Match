@@ -746,6 +746,13 @@ function compareFaces(faceId, originalImageID) {
       "maxNumOfCandidatesReturned":1,
       "mode": "matchFace"
   };
+
+/*
+const params = {    
+    faceId:"c5c24a82-6845-4031-9d5d-978df9175426",
+    faceListId:"86753098675309"
+}; 
+*/
   console.log(params);
   
   $.ajax({
