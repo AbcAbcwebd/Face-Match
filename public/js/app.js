@@ -631,7 +631,7 @@ function loadDynamicContent(){
 };
 
 // This function handles sending matches to the database to be saved or savng them locally until a user logs in.
-function saveMatch(returnImageID, newImageURL, faceID){
+function saveMatch(returnImageID, newImageURL, faceID, confidence){
   if (signedIn && userID) {
     // User is signed in and their ID is being stored locally.
     console.log("About to send FaceID: " + faceID)
@@ -639,7 +639,8 @@ function saveMatch(returnImageID, newImageURL, faceID){
       submitUser: userID,
       returnImageID: returnImageID,
       newImageURL: newImageURL,
-      faceID: faceID
+      faceID: faceID,
+      confidence: confidence
     };
     $.post("/matches", matchInfo, function(data) {
       // If the save is successful, local storage is wiped out. 
@@ -649,12 +650,13 @@ function saveMatch(returnImageID, newImageURL, faceID){
   } else if (signedIn) {
     // If the user is signed in, but their ID is not available, their ID should be checked.
     checkID();
-    saveMatch(returnImageID, newImageURL, data.persistedFaceId);
+    saveMatch(returnImageID, newImageURL, data.persistedFaceId, confidence);
   } else {
     // If the user is not signed in, their information should be stored locally. 
     localStorage.setItem("returnImageID", returnImageID);
     localStorage.setItem("newImageURL", newImageURL);
     localStorage.setItem("newFaceID", faceID);
+    localStorage.setItem("confidence", confidence);
   }
 };
 
@@ -664,11 +666,13 @@ function checkLocalStorage(){
   var savedImageID = localStorage.getItem("returnImageID");
   var savedImageURL = localStorage.getItem("newImageURL");
   var savedFaceID = localStorage.getItem("newFaceID");
+  var savedConfidence = localStorage.getItem("confidence");
   if (savedImageID && savedImageURL){
     saveMatch(savedImageID, savedImageURL, savedFaceID);
     localStorage.setItem("returnImageID", "");
     localStorage.setItem("newImageURL", "");
     localStorage.setItem("newFaceID", "");
+    localStorage.setItem("confidence", "");
     console.log("Local storage accessed")
   };
 };
@@ -702,10 +706,11 @@ function handleUploadedPhoto(){
 //    $('#image-upload-holder').append('<input type="file" name="file" class="cloudinary_fileupload">');
     $('#image-upload-btn').css('display', 'none');
  
-    addToFaceList(imageURL, imageID);
+    getFaceId(imageURL, imageID);
   });
 }
 
+/*
 function addToFaceList(imageURL, originalImageID) {
     // Base URL
     const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/facelists/" + faceListId + "/persistedFaces";
@@ -734,6 +739,53 @@ function addToFaceList(imageURL, originalImageID) {
         console.log("error");
     });
 };
+*/
+
+function getFaceId(imageURL, originalImageID) {
+  // Base URL
+  const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/detect?";
+
+  // Parameters to pass in
+  const params = {
+      "returnFaceId": "true",
+      "returnFaceLandmarks": "false"
+  };
+  
+  const image = {
+      "url": imageURL
+  }
+
+  $.ajax({
+      url: urlBase + $.param(params),
+      beforeSend: function(xhrObj){
+          // Request headers
+          xhrObj.setRequestHeader("Content-Type","application/json");
+          xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",subscriptionKey);
+      },
+      type: "POST",
+      // Request body
+      data: JSON.stringify(image),
+  })
+  .done(function(data) {
+      console.log(data[0].faceId);
+      compareFaces(data[0].faceId, originalImageID)
+//      return data[0].faceId;
+  })
+  .fail(function() {
+      console.log("error");
+  });
+
+};
+
+// This function takes a faceID and finds it's image url
+// It then calls another function to actually display the image
+function getImage(photoFaceID){
+  $.get("/matches/FID/" + photoFaceID, function(photoData) {
+    console.log("Photo data found");
+    console.log(photoData);
+    displayReturnedImage(photoData.url);
+  });
+};
 
 function compareFaces(faceId, originalImageID) {
   // Base URL
@@ -746,6 +798,7 @@ function compareFaces(faceId, originalImageID) {
       "maxNumOfCandidatesReturned":1,
       "mode": "matchFace"
   };
+
   console.log(params);
   
   $.ajax({
@@ -760,8 +813,10 @@ function compareFaces(faceId, originalImageID) {
       data: JSON.stringify(params),
   })
   .done(function(data) {
+      console.log("Faces compared")
       console.log(data[0]);
-//      saveMatch(ADD MATCH ID, originalImageID, faceId);
+      getImage(data[0].persistedFaceId);
+      saveMatch(data[0].persistedFaceId, originalImageID, faceId, data[0].confidence);
 //      return data[0];
   })
   .fail(function() {
