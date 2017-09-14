@@ -26,15 +26,16 @@ module.exports = (app) => {
 	});
 
 	//user profile + photos
+	// The ID of the requesting user is passed in as a query parameter
+	// The client side JavaScript then expects back an array of objects pulled from the database.
 	app.get("/api/users/:id", function(req, res) {
-		db.user.findOne({
+		db.photo.findAll({
+			attributes: ['url', 'matchId'],
 			where: {
-				id: req.params.id
-			},
-			include: [db.photo]
-		}).then(function(dbUser) {
-			console.log(dbUser);
-			res.json(dbUser);
+				userId: req.params.id
+			}
+		}).then(function(photo) {
+			res.json(photo);
 		});
 	});
 
@@ -58,15 +59,6 @@ module.exports = (app) => {
 		});
 	});
 
-	app.delete("/api/photos/:id", function(req, res) {
-		dp.photo.destroy({
-			where: {
-				id:req.params.id
-			}
-		}).then(function(dbPhoto) {
-			res.json(dbPhoto);
-		});
-	});
 	// This recieves IDs of uploaded images.
 	// It should return an image element to display of the uploaded image as well as a source for a matching image.
 	// Just sub in the API result for 'match'
@@ -102,12 +94,18 @@ module.exports = (app) => {
 		});
 
 		res.sendStatus(200);
-	})
+	});
 
-	// This route handles requests for matches for a particular user
-	// The ID of the requesting user is passed in as a query parameter
-	// The client side JavaScript then expects back an array of objects pulled from the database.
+
+	//ID of a photo is passed in and the photo 
 	app.get("/matches/:id", (req, res) => {
+		db.photo.findOne({
+			attributes: ['url'],
+			where: {
+				id: req.params.id
+			}
+		});
+	});
 
-	})
+
 };

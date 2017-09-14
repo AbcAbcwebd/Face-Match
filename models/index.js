@@ -1,4 +1,3 @@
-// This file should be refactored. 
 'use strict';
 
 var fs        = require('fs');
