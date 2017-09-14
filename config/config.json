@@ -9,7 +9,6 @@
  
     "remote": {
         "username": "admin",
-        "password": "Str0ngPassw0rd!",
         "database": "face_match_db",
         "host": "174.138.39.122",
         "dialect": "mysql"
