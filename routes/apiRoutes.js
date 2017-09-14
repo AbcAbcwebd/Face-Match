@@ -108,11 +108,14 @@ module.exports = (app) => {
 
 	// Find photo based on faceID
 	app.get("/matches/FID/:faceID", (req, res) => {
+		console.log("Querying based on face ID")
 		db.photo.findOne({
 			attributes: ['url'],
 			where: {
 				faceId: req.params.faceID
 			}
+		}).then(function(data) {
+			res.json(data);
 		});
 	});
 

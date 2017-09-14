@@ -780,6 +780,7 @@ function getFaceId(imageURL, originalImageID) {
 // This function takes a faceID and finds it's image url
 // It then calls another function to actually display the image
 function getImage(photoFaceID){
+  console.log("Preparing to get image");
   $.get("/matches/FID/" + photoFaceID, function(photoData) {
     console.log("Photo data found");
     console.log(photoData);
@@ -795,7 +796,7 @@ function compareFaces(faceId, originalImageID) {
   const params = {
       "faceId": faceId,
       "faceListId": faceListId,
-      "maxNumOfCandidatesReturned":1,
+//      "maxNumOfCandidatesReturned":1,
       "mode": "matchFace"
   };
 
