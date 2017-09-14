@@ -1,3 +1,4 @@
+// This file relates to seeding
 const subscriptionKey = "97ac73fdfd3e437eabe5b247495fa471";
 const faceListId = "86753098675309";
 

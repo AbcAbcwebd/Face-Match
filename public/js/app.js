@@ -381,16 +381,7 @@ $( document ).ready(function() {
     viewport: viewport,
     element: $('.cube')[0]
   });
-/*
-  $( "#test-button" ).click(function() {
-    console.log("Clicked");
-    console.log(userPrefix.js);
-  //  $('#cube').style([userPrefix.js + 'Transform'] = 'rotateX(' + 200 + 'deg) rotateY(' + 310 + 'deg)');
-  //  $('#cube').css('-webkit-transform', 'rotate(7deg)');
-  //   Viewport.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + this.positionY + 'deg) rotateY(' + this.positionX + 'deg)';
-      autoHit = 6;
-  });
-*/
+
   //These buttons handle the dropdown menu
    $("#menu-button").click(function(){
       if ( $('#menu-dropdown').hasClass( "show" ) ){
@@ -533,6 +524,7 @@ function loadPastMatches(){
   }; 
 };
 
+/*
 function processImage() {
     // **********************************************
     // *** Update or verify the following values. ***
@@ -593,6 +585,7 @@ function processImage() {
         alert(errorString);
     });
 };
+*/
 
 function checkSignInStatus(){
   $.get("/sign-in-check", function(data) {
@@ -708,38 +701,7 @@ function handleUploadedPhoto(){
  
     getFaceId(imageURL, imageID);
   });
-}
-
-/*
-function addToFaceList(imageURL, originalImageID) {
-    // Base URL
-    const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/facelists/" + faceListId + "/persistedFaces";
-    
-    const image = {
-        "url": imageURL
-    }
-
-    $.ajax({
-        url: urlBase,
-        beforeSend: function(xhrObj){
-            // Request headers
-            xhrObj.setRequestHeader("Content-Type","application/json");
-            xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",subscriptionKey);
-        },
-        type: "POST",
-        // Request body
-        data: JSON.stringify(image),
-    })
-    .done(function(data) {
-        console.log(data.persistedFaceId);
-        compareFaces(data.persistedFaceId, originalImageID)
-        
-    })
-    .fail(function() {
-        console.log("error");
-    });
 };
-*/
 
 function getFaceId(imageURL, originalImageID) {
   // Base URL
