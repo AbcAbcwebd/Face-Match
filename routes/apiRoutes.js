@@ -116,4 +116,29 @@ module.exports = (app) => {
 		});
 	});
 
+
+	// These relate to seeding the database with face IDs
+	app.get("/seeding", function(req, res) {
+		db.photo.findAll({
+			attributes: ['id', 'url', 'faceId'],
+		}).then(function(data) {
+			res.json(data);
+		});
+	});
+
+	app.post("/seeding", function(req, res) {
+		console.log("recieved:")
+		console.log(req.body)
+		db.photo.update({
+			faceId: req.body.faceID,
+			}, {
+		        where: {
+		          id: req.body.imageID
+		        }
+
+		}).then(function(dbPhoto) {
+			res.json(dbPhoto);
+		});
+	});
+
 };
