@@ -72,17 +72,13 @@ module.exports = (app) => {
 	// Just sub in the API result for 'match'
 	// It should also return the table ID of the image returned by the API
 	app.post("/image", (req, res) => {
-		console.log("Route hit");
-		console.log("Target hit");
 		console.log(req.body.url);
 		var displayImage = cloudinary.image(req.body.url);
 		console.log(displayImage);
 		// Match should return the correct URL.
 		res.json({
 			status: "success",
-			image: displayImage,
-			match: "images/demo-portraits/demo1.png",
-			matchID: 1
+			image: displayImage
 		});
 	})
 
@@ -100,7 +96,8 @@ module.exports = (app) => {
 		db.photo.create({
 			url: newImageURL,
 			matchId: returnImageID,
-			userId: userID
+			userId: userID,
+			faceId: newImageFaceID
 		}).then(function(dbPhoto) {
 			res.json(dbPhoto);
 		});

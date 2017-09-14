@@ -673,6 +673,20 @@ function checkLocalStorage(){
   };
 };
 
+// This function displays the match image after it is returned from the Azure API
+function displayReturnedImage(imageAddress){
+  $('#side-6-img').attr('src', imageAddress);
+
+  setTimeout(function() {
+      autoHit = 6;
+      if (!signedIn){
+        $('#grab-tip').text("Login to auto-save this match.");
+      };
+    }, 1000); 
+    var enlargeButton = $('<button>').attr("id", "enlarge-btn").text("Enlarge Photo");
+    $('#enlarge-btn-holder').append(enlargeButton);
+};
+
 function handleUploadedPhoto(){
   var imageID = $('#image-id')[0].innerHTML;
   console.log(imageID);
@@ -687,21 +701,12 @@ function handleUploadedPhoto(){
     $('#image-upload-holder').empty();
 //    $('#image-upload-holder').append('<input type="file" name="file" class="cloudinary_fileupload">');
     $('#image-upload-btn').css('display', 'none');
-
-    $('#side-6-img').attr('src', data.match);
-    setTimeout(function() {
-      autoHit = 6;
-      if (!signedIn){
-        $('#grab-tip').text("Login to auto-save this match.");
-      };
-    }, 1000); 
-    var enlargeButton = $('<button>').attr("id", "enlarge-btn").text("Enlarge Photo");
-    $('#enlarge-btn-holder').append(enlargeButton); 
-    addToFaceList(imageURL, data.matchID, imageID);
+ 
+    addToFaceList(imageURL, imageID);
   });
 }
 
-function addToFaceList(imageURL, passThrough1, passThrough2) {
+function addToFaceList(imageURL, originalImageID) {
     // Base URL
     const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/facelists/" + faceListId + "/persistedFaces";
     
@@ -722,9 +727,44 @@ function addToFaceList(imageURL, passThrough1, passThrough2) {
     })
     .done(function(data) {
         console.log(data.persistedFaceId);
-        saveMatch(passThrough1, passThrough2, data.persistedFaceId);
+        compareFaces(data.persistedFaceId, originalImageID)
+        
     })
     .fail(function() {
         console.log("error");
     });
+};
+
+function compareFaces(faceId, originalImageID) {
+  // Base URL
+  const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/findsimilars?";
+
+  // Parameters to pass in
+  const params = {
+      "faceId": faceId,
+      "faceListId": faceListId,
+      "maxNumOfCandidatesReturned":1,
+      "mode": "matchFace"
+  };
+  console.log(params);
+  
+  $.ajax({
+      url: urlBase + $.param(params),
+      beforeSend: function(xhrObj){
+          // Request headers
+          xhrObj.setRequestHeader("Content-Type","application/json");
+          xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",subscriptionKey);
+      },
+      type: "POST",
+      // Request body
+      data: JSON.stringify(params),
+  })
+  .done(function(data) {
+      console.log(data[0]);
+//      saveMatch(ADD MATCH ID, originalImageID, faceId);
+//      return data[0];
+  })
+  .fail(function() {
+      console.log("error");
+  });
 };
