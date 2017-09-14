@@ -8,6 +8,7 @@ var userID;
 
 // Store east cost subscription key
 const subscriptionKey = "97ac73fdfd3e437eabe5b247495fa471";
+const faceListId = "86753098675309";
 
 $( document ).ready(function() {
   var events = new Events();
@@ -630,14 +631,15 @@ function loadDynamicContent(){
 };
 
 // This function handles sending matches to the database to be saved or savng them locally until a user logs in.
-function saveMatch(returnImageID, newImageURL){
+function saveMatch(returnImageID, newImageURL, faceID){
   if (signedIn && userID) {
     // User is signed in and their ID is being stored locally.
+    console.log("About to send FaceID: " + faceID)
     matchInfo = {
       submitUser: userID,
       returnImageID: returnImageID,
       newImageURL: newImageURL,
-      // ADD NEW IMAGE FACE ID
+      faceID: faceID
     };
     $.post("/matches", matchInfo, function(data) {
       // If the save is successful, local storage is wiped out. 
@@ -647,11 +649,12 @@ function saveMatch(returnImageID, newImageURL){
   } else if (signedIn) {
     // If the user is signed in, but their ID is not available, their ID should be checked.
     checkID();
-    saveMatch();
+    saveMatch(returnImageID, newImageURL, data.persistedFaceId);
   } else {
     // If the user is not signed in, their information should be stored locally. 
     localStorage.setItem("returnImageID", returnImageID);
     localStorage.setItem("newImageURL", newImageURL);
+    localStorage.setItem("newFaceID", faceID);
   }
 };
 
@@ -660,10 +663,12 @@ function saveMatch(returnImageID, newImageURL){
 function checkLocalStorage(){
   var savedImageID = localStorage.getItem("returnImageID");
   var savedImageURL = localStorage.getItem("newImageURL");
+  var savedFaceID = localStorage.getItem("newFaceID");
   if (savedImageID && savedImageURL){
-    saveMatch(savedImageID, savedImageURL);
+    saveMatch(savedImageID, savedImageURL, savedFaceID);
     localStorage.setItem("returnImageID", "");
     localStorage.setItem("newImageURL", "");
+    localStorage.setItem("newFaceID", "");
     console.log("Local storage accessed")
   };
 };
@@ -679,8 +684,6 @@ function handleUploadedPhoto(){
     $('#image-display-holder').empty();
     $('#image-display-holder').append(data.image);
     let imageURL = data.image.split("src='")[1].split("' />")[0];
-    let faceID = getFaceId(imageURL);
-    console.log("New Face ID: " + faceID)
     $('#image-upload-holder').empty();
 //    $('#image-upload-holder').append('<input type="file" name="file" class="cloudinary_fileupload">');
     $('#image-upload-btn').css('display', 'none');
@@ -694,28 +697,20 @@ function handleUploadedPhoto(){
     }, 1000); 
     var enlargeButton = $('<button>').attr("id", "enlarge-btn").text("Enlarge Photo");
     $('#enlarge-btn-holder').append(enlargeButton); 
-    saveMatch(data.matchID, imageID);
+    addToFaceList(imageURL, data.matchID, imageID);
   });
 }
 
-// Get a face ID from input face
-//module.exports = {
-function getFaceId(imageURL) {
+function addToFaceList(imageURL, passThrough1, passThrough2) {
     // Base URL
-    const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/detect?";
-
-    // Parameters to pass in
-    const params = {
-        "returnFaceId": "true",
-        "returnFaceLandmarks": "false"
-    };
+    const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/facelists/" + faceListId + "/persistedFaces";
     
     const image = {
         "url": imageURL
     }
 
     $.ajax({
-        url: urlBase + $.param(params),
+        url: urlBase,
         beforeSend: function(xhrObj){
             // Request headers
             xhrObj.setRequestHeader("Content-Type","application/json");
@@ -726,42 +721,10 @@ function getFaceId(imageURL) {
         data: JSON.stringify(image),
     })
     .done(function(data) {
-        console.log(data[0].faceId);
-        return data[0].faceId;
+        console.log(data.persistedFaceId);
+        saveMatch(passThrough1, passThrough2, data.persistedFaceId);
     })
     .fail(function() {
         console.log("error");
     });
 };
-
-function compareFaces(faceId, allFaceIds) {
-    // Base URL
-    const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/findsimilars?";
-
-    // Parameters to pass in
-    const params = {
-        "faceId": faceId,
-        "faceIds": allFaceIds,
-        "maxNumOfCandidatesReturned":1,
-        "mode": "matchFace"
-    };
-    
-    $.ajax({
-        url: urlBase + $.param(params),
-        beforeSend: function(xhrObj){
-            // Request headers
-            xhrObj.setRequestHeader("Content-Type","application/json");
-            xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",subscriptionKey);
-        },
-        type: "POST",
-        // Request body
-        data: JSON.stringify(params),
-    })
-    .done(function(data) {
-        console.log(data[0]);
-        return data[0];
-    })
-    .fail(function() {
-        console.log("error");
-    });
-}

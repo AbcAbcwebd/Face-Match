@@ -37,7 +37,7 @@ const faceListId = "86753098675309";
         .fail(function() {
             console.log("error");
         });
-<<<<<<< HEAD
+
     },
     // Creates an empty FaceList with Id faceListId, returns nothing
     createFaceList: function() {
@@ -97,10 +97,6 @@ const faceListId = "86753098675309";
     },
     //
     compareFaces: function(faceId) {
-=======
-    };
-    export function compareFaces(faceId, allFaceIds) {
->>>>>>> more-component-integration
         // Base URL
         const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/findsimilars?";
 
@@ -130,10 +126,5 @@ const faceListId = "86753098675309";
         .fail(function() {
             console.log("error");
         });
-<<<<<<< HEAD
     },
 };
-=======
-    }
-//};
->>>>>>> more-component-integration

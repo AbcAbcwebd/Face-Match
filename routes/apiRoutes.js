@@ -72,6 +72,7 @@ module.exports = (app) => {
 	// Just sub in the API result for 'match'
 	// It should also return the table ID of the image returned by the API
 	app.post("/image", (req, res) => {
+		console.log("Route hit");
 		console.log("Target hit");
 		console.log(req.body.url);
 		var displayImage = cloudinary.image(req.body.url);
@@ -89,10 +90,12 @@ module.exports = (app) => {
 	// It recieves three variables from the database and should make necesary saves to the database.
 	// If the information is saved successfully, it should return a status 200 at the end. 
 	app.post("/matches", (req, res) => {
+		console.log("Matches route hit")
 		let userID = req.body.submitUser;
 		let returnImageID = req.body.returnImageID;
 		let newImageURL = req.body.newImageURL;
 		let newImageFaceID = req.body.faceID;
+		console.log("FaceID: " + newImageFaceID);
 
 		db.photo.create({
 			url: newImageURL,
@@ -102,7 +105,7 @@ module.exports = (app) => {
 			res.json(dbPhoto);
 		});
 
-		res.sendStatus(200);
+//		res.sendStatus(200);
 	})
 
 	// This route handles requests for matches for a particular user
