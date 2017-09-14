@@ -89,9 +89,10 @@ module.exports = (app) => {
 	// It recieves three variables from the database and should make necesary saves to the database.
 	// If the information is saved successfully, it should return a status 200 at the end. 
 	app.post("/matches", (req, res) => {
-		var userID = req.body.submitUser;
-		var returnImageID = req.body.returnImageID;
-		var newImageURL = req.body.newImageURL;
+		let userID = req.body.submitUser;
+		let returnImageID = req.body.returnImageID;
+		let newImageURL = req.body.newImageURL;
+		let newImageFaceID = req.body.faceID;
 
 		db.photo.create({
 			url: newImageURL,
