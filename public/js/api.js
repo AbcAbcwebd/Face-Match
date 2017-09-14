@@ -2,9 +2,10 @@
 const subscriptionKey = "97ac73fdfd3e437eabe5b247495fa471";
 const faceListId = "86753098675309";
 
+
 // Get a face ID from input face
-module.exports = {
-    getFaceId: function(imageURL) {
+//module.exports = {
+    export function getFaceId(imageURL) {
         // Base URL
         const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/detect?";
 
@@ -36,6 +37,7 @@ module.exports = {
         .fail(function() {
             console.log("error");
         });
+
     },
     // Creates an empty FaceList with Id faceListId, returns nothing
     createFaceList: function() {
