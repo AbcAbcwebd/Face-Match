@@ -10,8 +10,12 @@ function addToFaceList(imageURL, imageID) {
         "url": imageURL
     }
 
+    const params = {
+        "userData": imageURL
+    }
+
     $.ajax({
-        url: urlBase,
+        url: urlBase + "?" + $.param(params),
         beforeSend: function(xhrObj){
             // Request headers
             xhrObj.setRequestHeader("Content-Type","application/json");
