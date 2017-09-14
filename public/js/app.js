@@ -702,10 +702,11 @@ function handleUploadedPhoto(){
 //    $('#image-upload-holder').append('<input type="file" name="file" class="cloudinary_fileupload">');
     $('#image-upload-btn').css('display', 'none');
  
-    addToFaceList(imageURL, imageID);
+    getFaceId(imageURL, imageID);
   });
 }
 
+/*
 function addToFaceList(imageURL, originalImageID) {
     // Base URL
     const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/facelists/" + faceListId + "/persistedFaces";
@@ -733,6 +734,43 @@ function addToFaceList(imageURL, originalImageID) {
     .fail(function() {
         console.log("error");
     });
+};
+*/
+
+function getFaceId(imageURL, originalImageID) {
+  // Base URL
+  const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/detect?";
+
+  // Parameters to pass in
+  const params = {
+      "returnFaceId": "true",
+      "returnFaceLandmarks": "false"
+  };
+  
+  const image = {
+      "url": imageURL
+  }
+
+  $.ajax({
+      url: urlBase + $.param(params),
+      beforeSend: function(xhrObj){
+          // Request headers
+          xhrObj.setRequestHeader("Content-Type","application/json");
+          xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",subscriptionKey);
+      },
+      type: "POST",
+      // Request body
+      data: JSON.stringify(image),
+  })
+  .done(function(data) {
+      console.log(data[0].faceId);
+      compareFaces(data[0].faceId, originalImageID)
+//      return data[0].faceId;
+  })
+  .fail(function() {
+      console.log("error");
+  });
+
 };
 
 function compareFaces(faceId, originalImageID) {
