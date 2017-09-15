@@ -444,7 +444,7 @@ $( document ).ready(function() {
         } else {
           $('#signup').empty();
           var welcomeMessage = $('<p>').text("Welcome " + data.firstname + "! Thanks for signing up!");
-          $('.modal-content').append(welcomeMessage);
+          $('#signup').append(welcomeMessage);
           setTimeout(function(){
             $('.modal').css('display', 'none');
           }, 4000);
