@@ -467,7 +467,7 @@ $( document ).ready(function() {
       password: userPassword
     };
     console.log("About to send sign in data")
-    $.post("/signup", signInData, function(data) {
+    $.post("/signin", signInData, function(data) {
       console.log(data);
       if (data.status !== "active"){
          $('#sign-in-error-display').text("We're sorry! There seems to be a problem with your account....");
