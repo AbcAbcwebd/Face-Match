@@ -524,7 +524,7 @@ function loadPastMatches(){
       };
       for (var x = 0; x < data.length; x++){
         // Here data should be properly structured and then appended to the "#past-matches-holder" div. 
-        
+
       };
     });
   }; 
@@ -725,8 +725,7 @@ function compareFaces(faceId, originalImageID) {
       console.log(data[0]);
       saveMatch(data[0].persistedFaceId, originalImageID, faceId, data[0].confidence);
       console.log("Persisted Face ID: " + data[0].persistedFaceId);
-      displayReturnedImage(getImageFromFaceId(data[0].persistedFaceId));
-//      return data[0];
+      getImageFromFaceId(data[0].persistedFaceId);
   })
   .fail(function() {
       console.log("error");
@@ -753,6 +752,7 @@ function getImageFromFaceId(faceId) {
       for (i=0; i<allFaces.length; i++) {
         if (faceId == allFaces[i].persistedFaceId) {
           console.log(allFaces[i].userData);
+          displayReturnedImage(allFaces[i].userData);
           return allFaces[i].userData;
         }
       }
