@@ -502,6 +502,14 @@ $( document ).ready(function() {
     $(".viewport").css('display', 'none');
     $("#enlarge-btn-holder").css('display', 'none');
     $("#grab-tip").css('display', 'none');
+    $('#confidence-display').css('display', 'none');
+    setTimeout(function(){
+      $('#expanded-image').css('display', 'none');
+      $(".viewport").css('display', 'block');
+      $("#enlarge-btn-holder").css('display', 'block');
+      $("#grab-tip").css('display', 'block');
+      $('#confidence-display').css('display', 'block');
+    }, 5000);
   });
 
   $("body").on("click", "#view-matches-btn", function(){
@@ -620,7 +628,7 @@ function checkLocalStorage(){
 };
 
 // This function displays the match image after it is returned from the Azure API
-function displayReturnedImage(imageAddress){
+function displayReturnedImage(imageAddress, confidence){
   $('#side-6-img').attr('src', imageAddress);
 
   setTimeout(function() {
@@ -631,6 +639,8 @@ function displayReturnedImage(imageAddress){
     }, 1000); 
     var enlargeButton = $('<button>').attr("id", "enlarge-btn").text("Enlarge Photo");
     $('#enlarge-btn-holder').append(enlargeButton);
+    $('#grab-tip').css('margin-top', '100px');
+    $('#confidence-display').text("Confidence score: " + (confidence * 100) + "%");
 };
 
 function handleUploadedPhoto(){
@@ -761,7 +771,7 @@ function interactAPI(passedFaceID, originalImageID, faceId, confidence){
         for (i=0; i<allFaces.length; i++) {
           if (faceId == allFaces[i].persistedFaceId) {
             console.log(allFaces[i].userData);
-            displayReturnedImage(allFaces[i].userData);
+            displayReturnedImage(allFaces[i].userData, confidence);
             saveMatch(allFaces[i].userData, originalImageID, faceId, confidence);
             return allFaces[i].userData;
           }

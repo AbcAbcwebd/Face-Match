@@ -292,6 +292,11 @@ button {
   margin-top: 150px;
 }
 
+#confidence-display {
+  color: white;
+  text-align: center;
+}
+
 #menu-dropdown {
     display: none;
     position: absolute;
