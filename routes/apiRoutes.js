@@ -34,8 +34,11 @@ module.exports = (app) => {
 			where: {
 				userId: req.params.id
 			}
-		}).then(function(photo) {
-			res.json(photo);
+		}).then(function(photos) {
+			for (let x = 0; x < photos.length; x++){
+				photos[x].url = cloudinary.image(photos[x].url);
+			}
+			res.json(photos);
 		});
 	});
 
@@ -83,6 +86,7 @@ module.exports = (app) => {
 		let returnImageID = req.body.returnImageID;
 		let newImageURL = req.body.newImageURL;
 		let newImageFaceID = req.body.faceID;
+		// Do we want to save confidence as well?
 		let matchConfidence = req.body.confidence;
 		console.log("FaceID: " + newImageFaceID);
 
@@ -140,9 +144,6 @@ module.exports = (app) => {
 		        }
 
 		}).then(function(dbPhoto) {
-			for (let x = 0; x < dbPhoto.length; x++){
-				dbPhoto[x].url = cloudinary.image(dbPhoto[x].url);
-			}
 			res.json(dbPhoto);
 		});
 	});

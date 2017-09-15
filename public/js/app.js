@@ -524,7 +524,13 @@ function loadPastMatches(){
       };
       for (var x = 0; x < data.length; x++){
         // Here data should be properly structured and then appended to the "#past-matches-holder" div. 
-
+        var matchElement = $('<div>').attr('class', 'match-element');
+        var matchImage = $('<img>').attr('src', data[x].matchId);
+        matchElement.append(data[x].url);
+        if (data[x].matchId.indexOf("http") >= 0){
+          matchElement.append(matchImage);
+        };
+        $('#past-matches-holder').append(matchElement);
       };
     });
   }; 
@@ -723,41 +729,48 @@ function compareFaces(faceId, originalImageID) {
   .done(function(data) {
       console.log("Faces compared")
       console.log(data[0]);
-      saveMatch(data[0].persistedFaceId, originalImageID, faceId, data[0].confidence);
+//      saveMatch(data[0].persistedFaceId, originalImageID, faceId, data[0].confidence);
       console.log("Persisted Face ID: " + data[0].persistedFaceId);
-      getImageFromFaceId(data[0].persistedFaceId);
+      interactAPI(data[0].persistedFaceId, originalImageID, faceId, data[0].confidence);
   })
   .fail(function() {
       console.log("error");
   });
 };
 
-function getImageFromFaceId(faceId) {
-  // Base URL
-  const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/facelists/86753098675309";
-  
-  $.ajax({
-      url: urlBase,
-      beforeSend: function(xhrObj){
-          // Request headers
-          xhrObj.setRequestHeader("Content-Type","application/json");
-          xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",subscriptionKey);
-      },
-      type: "GET"
-  })
-  .done(function(data) {
-    console.log(data);
-      console.log(data.persistedFaces);
-      var allFaces = data.persistedFaces;
-      for (i=0; i<allFaces.length; i++) {
-        if (faceId == allFaces[i].persistedFaceId) {
-          console.log(allFaces[i].userData);
-          displayReturnedImage(allFaces[i].userData);
-          return allFaces[i].userData;
+// These functions are nested because the pass through variables caused problems with Azure's function, but the done script needs access to the variables.
+function interactAPI(passedFaceID, originalImageID, faceId, confidence){
+
+  function getImageFromFaceId(faceId) { // 
+    // Base URL
+    const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/facelists/86753098675309";
+    
+    $.ajax({
+        url: urlBase,
+        beforeSend: function(xhrObj){
+            // Request headers
+            xhrObj.setRequestHeader("Content-Type","application/json");
+            xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",subscriptionKey);
+        },
+        type: "GET"
+    })
+    .done(function(data) {
+      console.log(data);
+        console.log(data.persistedFaces);
+        var allFaces = data.persistedFaces;
+        for (i=0; i<allFaces.length; i++) {
+          if (faceId == allFaces[i].persistedFaceId) {
+            console.log(allFaces[i].userData);
+            displayReturnedImage(allFaces[i].userData);
+            saveMatch(allFaces[i].userData, originalImageID, faceId, confidence);
+            return allFaces[i].userData;
+          }
         }
-      }
-  })
-  .fail(function() {
-      console.log("error");
-  });
-}
+    })
+    .fail(function() {
+        console.log("error");
+    });
+  };
+
+  getImageFromFaceId(passedFaceID);
+};
