@@ -403,6 +403,21 @@ form button {
   margin-top: 50px;
 }
 
+.match-element {
+  display: block;
+  width: 90%;
+  margin: auto;
+  background: #e0e0e0;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px 15px 5px 15px;
+}
+
+.match-element img {
+  width: 40%;
+  margin-right: 20px;
+}
+
 @media (max-width: 640px) {
   .viewport {
     -webkit-transform: scale(0.6, 0.6);
