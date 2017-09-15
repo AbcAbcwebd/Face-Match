@@ -518,8 +518,13 @@ function loadPastMatches(){
   } else {
     $.get("/api/users/" + userID, function(data) {
       console.log(data);
+      // If data is successfully retrieved, the div is cleared.
+      if (data.length > 0){
+        $('#past-matches-holder').empty();
+      };
       for (var x = 0; x < data.length; x++){
         // Here data should be properly structured and then appended to the "#past-matches-holder" div. 
+        
       };
     });
   }; 
@@ -679,6 +684,7 @@ function getFaceId(imageURL, originalImageID) {
 
 // This function takes a faceID and finds it's image url
 // It then calls another function to actually display the image
+/*
 function getImage(photoFaceID){
   console.log("Preparing to get image");
   $.get("/matches/FID/" + photoFaceID, function(photoData) {
@@ -687,6 +693,7 @@ function getImage(photoFaceID){
     displayReturnedImage(photoData.url);
   });
 };
+*/
 
 function compareFaces(faceId, originalImageID) {
   // Base URL
@@ -716,9 +723,9 @@ function compareFaces(faceId, originalImageID) {
   .done(function(data) {
       console.log("Faces compared")
       console.log(data[0]);
-      getImageFromFaceId(data[0].persistedFaceId);
       saveMatch(data[0].persistedFaceId, originalImageID, faceId, data[0].confidence);
       console.log("Persisted Face ID: " + data[0].persistedFaceId);
+      displayReturnedImage(getImageFromFaceId(data[0].persistedFaceId));
 //      return data[0];
   })
   .fail(function() {
@@ -740,10 +747,12 @@ function getImageFromFaceId(faceId) {
       type: "GET"
   })
   .done(function(data) {
-      console.log(data[0].persistedFaces);
-      var allFaces = data[0].persistedFaces;
+    console.log(data);
+      console.log(data.persistedFaces);
+      var allFaces = data.persistedFaces;
       for (i=0; i<allFaces.length; i++) {
         if (faceId == allFaces[i].persistedFaceId) {
+          console.log(allFaces[i].userData);
           return allFaces[i].userData;
         }
       }

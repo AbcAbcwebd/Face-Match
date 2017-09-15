@@ -140,6 +140,9 @@ module.exports = (app) => {
 		        }
 
 		}).then(function(dbPhoto) {
+			for (let x = 0; x < dbPhoto.length; x++){
+				dbPhoto[x].url = cloudinary.image(dbPhoto[x].url);
+			}
 			res.json(dbPhoto);
 		});
 	});
