@@ -13,7 +13,7 @@ function addToFaceList(imageURL, imageID) {
     const params = {
         "userData": imageURL
     }
-    
+
     $.ajax({
         url: urlBase + "?" + $.param(params),
         beforeSend: function(xhrObj){
@@ -57,3 +57,43 @@ $( document ).ready(function() {
 	   });
 	});
 });
+
+const baseSeedURL = "https://randomuser.me/api/portraits/men/";
+
+for (i=1; i<101; i++) {
+    setTimeout(function() {
+        const image = {
+            "url": baseSeedURL + i + "/.jpg"
+        }
+
+        const params = {
+            "userData": baseSeedURL + i + "/.jpg"
+        }
+        
+        $.ajax({
+            url: urlBase + "?" + $.param(params),
+            beforeSend: function(xhrObj){
+                // Request headers
+                xhrObj.setRequestHeader("Content-Type","application/json");
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",subscriptionKey);
+            },
+            type: "POST",
+            // Request body
+            data: JSON.stringify(image),
+        })
+        .done(function(data) {
+            console.log(data.persistedFaceId);
+            faceIDinfo =  {
+                faceID: data.persistedFaceId,
+                imageID: imageID
+            }
+            $.post("/seeding", faceIDinfo, function(postData) {
+
+            });
+
+        })
+        .fail(function() {
+            console.log("error");
+        });
+    }, i*1000);
+}
