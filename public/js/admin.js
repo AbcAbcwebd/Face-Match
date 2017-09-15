@@ -13,10 +13,7 @@ function addToFaceList(imageURL, imageID) {
     const params = {
         "userData": imageURL
     }
-
-    console.log("urlBase: " + urlBase);
-    console.log("params:");
-    console.log(params);
+    
     $.ajax({
         url: urlBase + "?" + $.param(params),
         beforeSend: function(xhrObj){

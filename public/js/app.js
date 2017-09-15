@@ -716,7 +716,7 @@ function compareFaces(faceId, originalImageID) {
   .done(function(data) {
       console.log("Faces compared")
       console.log(data[0]);
-      getImage(data[0].persistedFaceId);
+      getImageFromFaceId(data[0].persistedFaceId);
       saveMatch(data[0].persistedFaceId, originalImageID, faceId, data[0].confidence);
       console.log("Persisted Face ID: " + data[0].persistedFaceId);
 //      return data[0];
@@ -725,3 +725,30 @@ function compareFaces(faceId, originalImageID) {
       console.log("error");
   });
 };
+
+function getImageFromFaceId(faceId) {
+  // Base URL
+  const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/facelists/86753098675309";
+  
+  $.ajax({
+      url: urlBase,
+      beforeSend: function(xhrObj){
+          // Request headers
+          xhrObj.setRequestHeader("Content-Type","application/json");
+          xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",subscriptionKey);
+      },
+      type: "GET"
+  })
+  .done(function(data) {
+      console.log(data[0].persistedFaces);
+      var allFaces = data[0].persistedFaces;
+      for (i=0; i<allFaces.length; i++) {
+        if (faceId == allFaces[i].persistedFaceId) {
+          return allFaces[i].userData;
+        }
+      }
+  })
+  .fail(function() {
+      console.log("error");
+  });
+}
