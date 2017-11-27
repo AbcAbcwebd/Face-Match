@@ -36,10 +36,6 @@ fs
     db[model.name] = model;
   });
 
-
-// var model = sequelize['import'](path.join(__dirname, 'event.js'));
-// db[model.name] = model;
-
 Object.keys(db).forEach(function(modelName) {
   if (db[modelName].associate) {
     db[modelName].associate(db);

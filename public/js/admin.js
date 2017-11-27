@@ -26,7 +26,6 @@ function addToFaceList(imageURL, imageID) {
         data: JSON.stringify(image),
     })
     .done(function(data) {
-        console.log(data.persistedFaceId);
         faceIDinfo =  {
         	faceID: data.persistedFaceId,
         	imageID: imageID
@@ -43,14 +42,11 @@ function addToFaceList(imageURL, imageID) {
 
 $( document ).ready(function() {
 	$('#seed-faceids-btn').click(function(){
-		console.log("Button clicked");
 	   $.get("/seeding", function(data) {
 	   		for (var i = 0; i < data.length; i++){
 				let dbPhotoURL = data[i].url;
-				console.log(dbPhotoURL);
 				// This helps ensure that the value is a valid URL
 				if (dbPhotoURL.indexOf('http') >= 0 && !data[i].faceId){
-					console.log("Adding photo");
 					addToFaceList(dbPhotoURL, data[i].id);
 				};
 			};
@@ -82,7 +78,6 @@ for (i=1; i<101; i++) {
             data: JSON.stringify(image),
         })
         .done(function(data) {
-            console.log(data.persistedFaceId);
             faceIDinfo =  {
                 faceID: data.persistedFaceId,
                 imageID: imageID
