@@ -10,7 +10,8 @@ const session = require('express-session');
 const env = require('dotenv').load();
 
 // Requiring our models for syncing
-const models = require("./models");
+// Once backend is operational again, uncomment the below line.
+// const models = require("./models");
 
 // Sets up the Express app to handle data parsing
 app.use(bodyParser.json());
