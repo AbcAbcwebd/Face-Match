@@ -34,8 +34,6 @@ var authRoute = require('./routes/auth.js')(app,passport);
 //load passport strategies
 require('./config/passport/passport.js')(passport, models.user);
 
-//Sync Database
-
 app.listen(PORT, function() {
 	console.log("App listening on PORT " + PORT);
 });
