@@ -33,7 +33,8 @@ require("./routes/apiRoutes.js")(app);
 var authRoute = require('./routes/auth.js')(app,passport);
 
 //load passport strategies
-require('./config/passport/passport.js')(passport, models.user);
+// Uncomment when restoring backend
+// require('./config/passport/passport.js')(passport, models.user);
 
 //Sync Database
 
