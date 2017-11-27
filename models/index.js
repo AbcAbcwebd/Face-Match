@@ -8,6 +8,8 @@ var env       = process.env.NODE_ENV || 'development';
 var db        = {};
 const dbCreds = require("../config/config.json")[process.argv[2]];
 
+// Uncomment this document when backend is again operational.
+/*
 // To conect to development database
 var sequelize = new Sequelize(dbCreds.database, dbCreds.username, dbCreds.password, {
   host: dbCreds.host,
@@ -44,5 +46,5 @@ Object.keys(db).forEach(function(modelName) {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-
+*/
 module.exports = db;

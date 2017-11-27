@@ -10,7 +10,8 @@ const session = require('express-session');
 const env = require('dotenv').load();
 
 // Requiring our models for syncing
-const models = require("./models");
+// Once backend is operational again, uncomment the below line.
+// const models = require("./models");
 
 // Sets up the Express app to handle data parsing
 app.use(bodyParser.json());
@@ -32,7 +33,8 @@ require("./routes/apiRoutes.js")(app);
 var authRoute = require('./routes/auth.js')(app,passport);
 
 //load passport strategies
-require('./config/passport/passport.js')(passport, models.user);
+// Uncomment when restoring backend
+// require('./config/passport/passport.js')(passport, models.user);
 
 app.listen(PORT, function() {
 	console.log("App listening on PORT " + PORT);
