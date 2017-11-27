@@ -26,8 +26,6 @@ function addToFaceList(imageURL, imageID) {
         data: JSON.stringify(image),
     })
     .done(function(data) {
-        console.log(data.persistedFaceId);
-//        return data.persistedFaceId;
 
 		db.photo.update({
 			faceId: data.persistedFaceId,

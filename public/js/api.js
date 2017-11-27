@@ -4,7 +4,6 @@ const faceListId = "86753098675309";
 
 
 // Get a face ID from input face
-//module.exports = {
     export function getFaceId(imageURL) {
         // Base URL
         const urlBase = "https://eastus2.api.cognitive.microsoft.com/face/v1.0/detect?";
@@ -31,7 +30,6 @@ const faceListId = "86753098675309";
             data: JSON.stringify(image),
         })
         .done(function(data) {
-            console.log(data[0].faceId);
             return data[0].faceId;
         })
         .fail(function() {
@@ -61,7 +59,7 @@ const faceListId = "86753098675309";
             data: "{'name': 'Face-Match-list'}",
         })
         .done(function(data) {
-            console.log("success");
+
         })
         .fail(function() {
             console.log("error");
@@ -88,7 +86,6 @@ const faceListId = "86753098675309";
             data: JSON.stringify(image),
         })
         .done(function(data) {
-            console.log(data.persistedFaceId);
             return data.persistedFaceId;
         })
         .fail(function() {
@@ -120,7 +117,6 @@ const faceListId = "86753098675309";
             data: JSON.stringify(params),
         })
         .done(function(data) {
-            console.log(data[0]);
             return data[0];
         })
         .fail(function() {
